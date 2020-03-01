@@ -1,0 +1,21 @@
+version: '3.7'
+services:
+  db:
+    image: postgres
+    environment:
+      POSTGRES_PASSWORD: ${TYPEORM_PASSWORD}
+      POSTGRES_USER: ${TYPEORM_USERNAME}
+      POSTGRES_DB: ${TYPEORM_DATABASE}
+    tty: true
+    volumes:
+      - ./pgdata:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
+  web:
+    build: .
+    volumes:
+      - .:/usr/app
+    depends_on:
+      - db
+    ports:
+      - 4000:4000
