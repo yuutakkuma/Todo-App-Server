@@ -7,11 +7,11 @@
 /* tslint:disable */
 /* eslint-disable */
 export interface CreateTodoInput {
-    title?: string;
+    title: string;
 }
 
 export interface IMutation {
-    crateTodo(createTodoInput?: CreateTodoInput): Todo | Promise<Todo>;
+    createTodo(input: CreateTodoInput): Todo | Promise<Todo>;
 }
 
 export interface IQuery {
@@ -19,6 +19,6 @@ export interface IQuery {
 }
 
 export interface Todo {
-    id: number;
+    id: string;
     title: string;
 }
