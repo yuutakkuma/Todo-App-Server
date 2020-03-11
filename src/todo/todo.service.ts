@@ -1,9 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { Repository } from 'typeorm';
+import { InjectRepository } from '@nestjs/typeorm';
 
 import { Todo } from './entity/todo.entity';
 import { CreateTodoInput } from './inputs/createTodoInput';
-import { InjectRepository } from '@nestjs/typeorm';
 
 @Injectable()
 export class TodoService {
@@ -16,7 +16,12 @@ export class TodoService {
   }
 
   async create(title: CreateTodoInput): Promise<Todo> {
-    const data = this.userRepository.create(title).save();
-    return data;
+    // 受け取った値をコピーし、saveメソッドでDBに値を作成か更新をする処理を行う。
+    // (IDをDBで自動生成しているので、更新はされない。)
+    return await this.userRepository.create(title).save();
+  }
+
+  async delete<T>(data: T) {
+    await this.userRepository.delete(data);
   }
 }
