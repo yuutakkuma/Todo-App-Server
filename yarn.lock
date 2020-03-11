@@ -524,7 +524,7 @@
     "@angular-devkit/schematics" "7.3.8"
     fs-extra "8.1.0"
 
-"@nestjs/testing@^6.10.14":
+"@nestjs/testing@^6.11.8":
   version "6.11.8"
   resolved "https://registry.yarnpkg.com/@nestjs/testing/-/testing-6.11.8.tgz#79bf0bc858aaffe2d8b6e9e7d638634298764b24"
   integrity sha512-BuqaqVWVNtRR00NGXiXD2O8Lxbtuv9o+x+7mDfzNFCedy9v1BSfkXpGnbVk9C4Phf9oFhsBnRqZm3kmfXvdlpw==

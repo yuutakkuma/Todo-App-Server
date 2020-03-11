@@ -12,6 +12,7 @@ export interface CreateTodoInput {
 
 export interface IMutation {
     createTodo(input: CreateTodoInput): Todo | Promise<Todo>;
+    deleteTodo(id: string): boolean | Promise<boolean>;
 }
 
 export interface IQuery {

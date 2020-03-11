@@ -4,12 +4,17 @@ type Query {
 
 type Mutation {
   createTodo(input: CreateTodoInput!): Todo!
+  deleteTodo(id: ID!): Boolean!
 }
 
 type Todo {
   id: ID!
   title: String!
 }
+
+# type DeleteResponse {
+#   success: Boolean!
+# }
 
 input CreateTodoInput {
   title: String!

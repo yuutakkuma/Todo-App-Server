@@ -2,18 +2,29 @@ import { Resolver, Query, Mutation, Args } from '@nestjs/graphql';
 import { TodoService } from './todo.service';
 import { TodoDto } from './dto/todo.dto';
 import { CreateTodoInput } from './inputs/createTodoInput';
+import { Todo } from './entity/todo.entity';
 
 @Resolver('Todo')
 export class TodoResolver {
   constructor(private readonly todoService: TodoService) {}
-  // 全ユーザー取得
+
   @Query(() => [TodoDto])
   async getTodoList() {
-    return this.todoService.todoList();
+    return await this.todoService.todoList();
   }
 
   @Mutation(() => TodoDto)
   async createTodo(@Args('input') input: CreateTodoInput) {
-    return this.todoService.create(input);
+    return await this.todoService.create(input);
+  }
+
+  @Mutation(() => Boolean)
+  async deleteTodo(@Args('id') id: number) {
+    const data = await Todo.findOne(id);
+    if (!data) {
+      return false;
+    }
+    await this.todoService.delete(data);
+    return true;
   }
 }
