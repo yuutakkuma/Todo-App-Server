@@ -1,0 +1,33 @@
+type Query {
+  getTodoList: [Todo!]
+  getUsers: [User!]
+}
+
+type Mutation {
+  createTodo(input: CreateTodoInput!): Todo!
+  deleteTodo(id: ID!): Boolean!
+  registerUser(input: RegisterUserInput): User!
+}
+
+type Todo {
+  id: ID!
+  title: String!
+}
+
+input CreateTodoInput {
+  title: String!
+}
+
+type User {
+  id: ID
+  userName: String
+  email: String
+  password: String
+  todo: [Todo]
+}
+
+input RegisterUserInput {
+  userName: String!
+  email: String!
+  password: String!
+}
