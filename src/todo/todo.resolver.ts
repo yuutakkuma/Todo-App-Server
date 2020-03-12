@@ -20,7 +20,7 @@ export class TodoResolver {
 
   @Mutation(() => Boolean)
   async deleteTodo(@Args('id') id: number) {
-    const data = await Todo.findOne(id);
+    const data = await Todo.findOne({ where: { id } });
     if (!data) {
       return false;
     }
