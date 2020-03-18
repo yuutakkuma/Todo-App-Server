@@ -10,6 +10,7 @@ import { UserModule } from './user/user.module';
     TypeOrmModule.forRoot(),
     GraphQLModule.forRoot({
       typePaths: ['./**/*.graphql'],
+      context: ({ req, res }) => ({ req, res }),
     }),
     TodoModule,
     UserModule,
