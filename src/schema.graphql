@@ -1,12 +1,14 @@
 type Query {
-  getTodoList: [Todo!]
-  getUsers: [User!]
+  getTodoList: [Todo]
+  getUsers: [User]
+  bye: String
 }
 
 type Mutation {
-  createTodo(input: CreateTodoInput!): Todo!
-  deleteTodo(id: ID!): Boolean!
-  registerUser(input: RegisterUserInput): User!
+  createTodo(input: CreateTodoInput!): Todo
+  deleteTodo(id: ID!): Boolean
+  register(registerInput: RegisterInput!): Boolean
+  login(loginInput: LoginInput!): Boolean
 }
 
 type Todo {
@@ -19,15 +21,19 @@ input CreateTodoInput {
 }
 
 type User {
-  id: ID
-  userName: String
-  email: String
-  password: String
+  id: ID!
+  userName: String!
+  email: String!
   todo: [Todo]
 }
 
-input RegisterUserInput {
+input RegisterInput {
   userName: String!
+  email: String!
+  password: String!
+}
+
+input LoginInput {
   email: String!
   password: String!
 }

@@ -10,7 +10,12 @@ export interface CreateTodoInput {
     title: string;
 }
 
-export interface RegisterUserInput {
+export interface LoginInput {
+    email: string;
+    password: string;
+}
+
+export interface RegisterInput {
     userName: string;
     email: string;
     password: string;
@@ -19,12 +24,14 @@ export interface RegisterUserInput {
 export interface IMutation {
     createTodo(input: CreateTodoInput): Todo | Promise<Todo>;
     deleteTodo(id: string): boolean | Promise<boolean>;
-    registerUser(input?: RegisterUserInput): User | Promise<User>;
+    register(registerInput: RegisterInput): boolean | Promise<boolean>;
+    login(loginInput: LoginInput): boolean | Promise<boolean>;
 }
 
 export interface IQuery {
     getTodoList(): Todo[] | Promise<Todo[]>;
     getUsers(): User[] | Promise<User[]>;
+    bye(): string | Promise<string>;
 }
 
 export interface Todo {
@@ -33,9 +40,8 @@ export interface Todo {
 }
 
 export interface User {
-    id?: string;
-    userName?: string;
-    email?: string;
-    password?: string;
+    id: string;
+    userName: string;
+    email: string;
     todo?: Todo[];
 }
