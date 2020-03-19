@@ -3,6 +3,9 @@ import { TodoService } from './todo.service';
 import { TodoDto } from './dto/todo.dto';
 import { CreateTodoInput } from './inputs/createTodoInput';
 import { Todo } from './entity/todo.entity';
+import { UseGuards } from '@nestjs/common';
+import { GqlAuthGuard } from 'src/user/auth/gqlAuthGuard';
+import { GetAuthorization } from 'src/ customDecorator/getAuthorization';
 
 @Resolver('Todo')
 export class TodoResolver {
@@ -13,9 +16,14 @@ export class TodoResolver {
     return await this.todoService.todoList();
   }
 
-  @Mutation(() => TodoDto)
-  async createTodo(@Args('input') input: CreateTodoInput) {
-    return await this.todoService.create(input);
+  @Mutation(() => Boolean)
+  @UseGuards(GqlAuthGuard)
+  async createTodo(
+    @Args('input') input: CreateTodoInput,
+    @GetAuthorization() authorization: string,
+  ) {
+    await this.todoService.create(input, authorization);
+    return true;
   }
 
   @Mutation(() => Boolean)
