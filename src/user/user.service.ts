@@ -1,7 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { Response } from 'express';
 
 import { User } from './entity/user.entity';
 import { RegisterInput } from './inputs/registerInput';

@@ -9,10 +9,15 @@ import { LoginInput } from './inputs/loginInput';
 import { LoginGuard } from './auth/loginGuard';
 import { GqlAuthGuard } from './auth/gqlAuthGuard';
 import { MyContext } from './myContext';
+import { GetAuthorization } from 'src/ customDecorator/getAuthorization';
+import { AuthService } from './auth/auth.service';
 
 @Resolver('User')
 export class UserResolver {
-  constructor(private readonly userService: UserService) {}
+  constructor(
+    private readonly userService: UserService,
+    private readonly authService: AuthService,
+  ) {}
 
   @Query(() => [UserDto])
   async getUsers() {
@@ -21,7 +26,10 @@ export class UserResolver {
   // jwtで認証できるか実験
   @Query(() => String)
   @UseGuards(GqlAuthGuard)
-  async bye() {
+  async bye(@GetAuthorization() authorization: string) {
+    const i = await this.authService.verifyOfUserId(authorization);
+    console.log(i);
+
     return '認証済みです！';
   }
 

@@ -40,4 +40,14 @@ export class AuthService {
       throw new Error('認証していません。');
     }
   }
+
+  async verifyOfUserId(authorization: string) {
+    try {
+      const token = authorization.split(' ')[1];
+      const userInfo = await this.jwtService.verify(token);
+      return userInfo.userId;
+    } catch {
+      throw new Error('認証していません。');
+    }
+  }
 }

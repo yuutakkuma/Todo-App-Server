@@ -22,7 +22,7 @@ export interface RegisterInput {
 }
 
 export interface IMutation {
-    createTodo(input: CreateTodoInput): Todo | Promise<Todo>;
+    createTodo(input: CreateTodoInput): boolean | Promise<boolean>;
     deleteTodo(id: string): boolean | Promise<boolean>;
     register(registerInput: RegisterInput): boolean | Promise<boolean>;
     login(loginInput: LoginInput): boolean | Promise<boolean>;
@@ -36,6 +36,7 @@ export interface IQuery {
 
 export interface Todo {
     id: string;
+    userId: string;
     title: string;
 }
 
@@ -43,5 +44,5 @@ export interface User {
     id: string;
     userName: string;
     email: string;
-    todo?: Todo[];
+    todos?: Todo[];
 }

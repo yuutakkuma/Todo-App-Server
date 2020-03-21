@@ -13,18 +13,26 @@ export class TodoService {
     private readonly authService: AuthService,
   ) {}
 
-  async todoList(): Promise<Todo[]> {
-    return await this.userRepository.find();
+  async todoList(authorization: string): Promise<Todo[]> {
+    const userId = await this.authService.verifyOfUserId(authorization);
+    return await this.userRepository.find({ skip: userId });
   }
 
-  async create(data: CreateTodoInput, authorization: string) {
+  async create(data: CreateTodoInput, authorization: string): Promise<boolean> {
     const userId = await this.authService.verifyOfUserId(authorization);
-    return await this.userRepository
-      .create({
-        title: data.title,
-        userId: userId,
-      })
-      .save();
+
+    try {
+      await this.userRepository
+        .create({
+          title: data.title,
+          userId: userId,
+        })
+        .save();
+      return true;
+    } catch {
+      console.log('データを保存出来ませんでした。');
+      return false;
+    }
   }
 
   async delete<T>(data: T) {

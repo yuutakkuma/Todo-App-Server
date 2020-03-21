@@ -1,28 +1,28 @@
 import { Resolver, Query, Mutation, Args } from '@nestjs/graphql';
+
 import { TodoService } from './todo.service';
-import { TodoDto } from './dto/todo.dto';
 import { CreateTodoInput } from './inputs/createTodoInput';
 import { Todo } from './entity/todo.entity';
-import { UseGuards } from '@nestjs/common';
-import { GqlAuthGuard } from 'src/user/auth/gqlAuthGuard';
 import { GetAuthorization } from 'src/ customDecorator/getAuthorization';
 
 @Resolver('Todo')
 export class TodoResolver {
   constructor(private readonly todoService: TodoService) {}
 
-  @Query(() => [TodoDto])
-  async getTodoList() {
-    return await this.todoService.todoList();
+  @Query(() => Todo)
+  async getTodoList(@GetAuthorization() authorization: string) {
+    return await this.todoService.todoList(authorization);
   }
 
   @Mutation(() => Boolean)
-  @UseGuards(GqlAuthGuard)
   async createTodo(
     @Args('input') input: CreateTodoInput,
     @GetAuthorization() authorization: string,
   ) {
-    await this.todoService.create(input, authorization);
+    const save = await this.todoService.create(input, authorization);
+    if (!save) {
+      throw new Error('データをセーブ出来ませんでした。');
+    }
     return true;
   }
 
