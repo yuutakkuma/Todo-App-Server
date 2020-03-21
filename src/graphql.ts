@@ -21,11 +21,15 @@ export interface RegisterInput {
     password: string;
 }
 
+export interface LoginResponse {
+    accessToken: string;
+}
+
 export interface IMutation {
     createTodo(input: CreateTodoInput): boolean | Promise<boolean>;
     deleteTodo(id: string): boolean | Promise<boolean>;
     register(registerInput: RegisterInput): boolean | Promise<boolean>;
-    login(loginInput: LoginInput): boolean | Promise<boolean>;
+    login(loginInput: LoginInput): LoginResponse | Promise<LoginResponse>;
 }
 
 export interface IQuery {

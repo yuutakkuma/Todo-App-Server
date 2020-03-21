@@ -11,6 +11,7 @@ import { GqlAuthGuard } from './auth/gqlAuthGuard';
 import { MyContext } from './myContext';
 import { GetAuthorization } from 'src/ customDecorator/getAuthorization';
 import { AuthService } from './auth/auth.service';
+import { LoginResponse } from './dto/loginResponse';
 
 @Resolver('User')
 export class UserResolver {
@@ -39,13 +40,12 @@ export class UserResolver {
     return await this.userService.register(registerInput);
   }
 
-  @Mutation(() => Boolean)
+  @Mutation(() => LoginResponse)
   @UseGuards(LoginGuard)
   async login(
     @Args('loginInput') loginInput: LoginInput,
     @Context() ctx: MyContext,
-  ): Promise<boolean> {
-    await this.userService.login(loginInput, ctx);
-    return true;
+  ): Promise<LoginResponse> {
+    return await this.userService.login(loginInput, ctx);
   }
 }

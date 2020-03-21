@@ -37,14 +37,15 @@ export class UserService {
       where: { email: loginData.email },
     });
 
-    const token = ctx.res.cookie(
-      'jid',
-      await this.authService.accessToken(user),
-    );
-    if (!token) {
+    const accessToken = await this.authService.accessToken(user);
+    if (!accessToken) {
       throw new Error('アクセストークンを生成出来ませんでした。');
     }
+    // レスポンスにアクセストークンを追加
+    ctx.res.cookie('jid', accessToken);
 
-    return true;
+    return {
+      accessToken: accessToken,
+    };
   }
 }

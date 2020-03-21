@@ -8,7 +8,7 @@ type Mutation {
   createTodo(input: CreateTodoInput!): Boolean
   deleteTodo(id: ID!): Boolean
   register(registerInput: RegisterInput!): Boolean
-  login(loginInput: LoginInput!): Boolean
+  login(loginInput: LoginInput!): LoginResponse
 }
 
 type Todo {
@@ -26,6 +26,10 @@ type User {
   userName: String!
   email: String!
   todos: [Todo]
+}
+
+type LoginResponse {
+  accessToken: String!
 }
 
 input RegisterInput {
