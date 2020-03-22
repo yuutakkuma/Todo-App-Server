@@ -11,6 +11,7 @@ import { UserModule } from './user/user.module';
     GraphQLModule.forRoot({
       typePaths: ['./**/*.graphql'],
       context: ({ req, res }) => ({ req, res }),
+      cors: false,
     }),
     TodoModule,
     UserModule,
