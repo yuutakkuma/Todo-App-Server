@@ -1,10 +1,10 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 
 import { Todo } from './entity/todo.entity';
 import { CreateTodoInput } from './inputs/createTodoInput';
-import { AuthService } from 'src/user/auth/auth.service';
+import { AuthService } from '../auth/auth.service';
 
 @Injectable()
 export class TodoService {
@@ -13,9 +13,9 @@ export class TodoService {
     private readonly authService: AuthService,
   ) {}
 
-  async todoList(authorization: string): Promise<Todo[]> {
-    const userId = await this.authService.verifyOfUserId(authorization);
-    return await this.userRepository.find({ skip: userId });
+  async todoList(token: string): Promise<Todo[]> {
+    const data = await this.authService.verifyOfUserId(token);
+    return await this.userRepository.find({ skip: data.userId });
   }
 
   async create(data: CreateTodoInput, authorization: string): Promise<boolean> {
@@ -30,7 +30,7 @@ export class TodoService {
         .save();
       return true;
     } catch {
-      console.log('データを保存出来ませんでした。');
+      console.error('データを保存出来ませんでした。');
       return false;
     }
   }

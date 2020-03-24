@@ -3,15 +3,16 @@ import { Resolver, Query, Mutation, Args } from '@nestjs/graphql';
 import { TodoService } from './todo.service';
 import { CreateTodoInput } from './inputs/createTodoInput';
 import { Todo } from './entity/todo.entity';
-import { GetAuthorization } from 'src/ customDecorator/getAuthorization';
+import { GetAuthorization } from 'src/customDecorator/getAuthorization';
+import { GetToken } from '../customDecorator/getToken';
 
 @Resolver('Todo')
 export class TodoResolver {
   constructor(private readonly todoService: TodoService) {}
 
   @Query(() => Todo)
-  async getTodoList(@GetAuthorization() authorization: string) {
-    return await this.todoService.todoList(authorization);
+  async getTodoList(@GetToken() token: string) {
+    return await this.todoService.todoList(token);
   }
 
   @Mutation(() => Boolean)

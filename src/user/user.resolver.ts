@@ -6,12 +6,11 @@ import { UserService } from './user.service';
 import { UserDto } from './dto/user.dto';
 import { RegisterInput } from './inputs/registerInput';
 import { LoginInput } from './inputs/loginInput';
-import { LoginGuard } from './auth/loginGuard';
-import { GqlAuthGuard } from './auth/gqlAuthGuard';
+import { LoginGuard } from '../auth/loginGuard';
+import { GqlAuthGuard } from '../auth/gqlAuthGuard';
 import { MyContext } from './myContext';
-import { GetAuthorization } from 'src/ customDecorator/getAuthorization';
-import { AuthService } from './auth/auth.service';
-import { LoginResponse } from './dto/loginResponse';
+import { GetAuthorization } from 'src/customDecorator/getAuthorization';
+import { AuthService } from '../auth/auth.service';
 
 @Resolver('User')
 export class UserResolver {
@@ -40,12 +39,12 @@ export class UserResolver {
     return await this.userService.register(registerInput);
   }
 
-  @Mutation(() => LoginResponse)
+  @Mutation(() => Boolean)
   @UseGuards(LoginGuard)
   async login(
     @Args('loginInput') loginInput: LoginInput,
     @Context() ctx: MyContext,
-  ): Promise<LoginResponse> {
+  ): Promise<boolean> {
     return await this.userService.login(loginInput, ctx);
   }
 }
