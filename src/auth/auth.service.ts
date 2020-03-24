@@ -39,7 +39,7 @@ export class AuthService {
   async saveAccessToken(res: Response, token: string) {
     res.cookie('jid', token);
   }
-
+  // アクセストークンを削除する
   async clearCookiesToken(res: Response, token: string) {
     try {
       res.clearCookie('jid', token);
@@ -48,19 +48,8 @@ export class AuthService {
     }
   }
 
-  // ログイン済みか検証
-  async verify(authorization: string) {
-    try {
-      const token = authorization.split(' ')[1];
-      await this.jwtService.verify(token);
-      return true;
-    } catch {
-      console.error('認証していません。');
-    }
-  }
-
   // ユーザーIDを特定
-  async verifyOfUserId(token: string) {
+  async verifyOfUserInfo(token: string) {
     try {
       return await this.jwtService.verify(token);
     } catch {

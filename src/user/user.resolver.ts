@@ -7,11 +7,9 @@ import { UserDto } from './dto/user.dto';
 import { RegisterInput } from './inputs/registerInput';
 import { LoginInput } from './inputs/loginInput';
 import { LoginGuard } from '../auth/loginGuard';
-import { GqlAuthGuard } from '../auth/gqlAuthGuard';
 import { MyContext } from './myContext';
-import { GetAuthorization } from 'src/customDecorator/getAuthorization';
 import { AuthService } from '../auth/auth.service';
-import { GetToken } from 'src/customDecorator/getToken';
+import { GetToken } from '../customDecorator/getToken';
 
 @Resolver('User')
 export class UserResolver {
@@ -23,15 +21,6 @@ export class UserResolver {
   @Query(() => [UserDto])
   async getUsers() {
     return await this.userService.users();
-  }
-  // jwtで認証できるか実験
-  @Query(() => String)
-  @UseGuards(GqlAuthGuard)
-  async bye(@GetAuthorization() authorization: string) {
-    const i = await this.authService.verifyOfUserId(authorization);
-    console.log(i);
-
-    return '認証済みです！';
   }
 
   @Mutation(() => Boolean)

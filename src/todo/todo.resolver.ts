@@ -3,7 +3,6 @@ import { Resolver, Query, Mutation, Args } from '@nestjs/graphql';
 import { TodoService } from './todo.service';
 import { CreateTodoInput } from './inputs/createTodoInput';
 import { Todo } from './entity/todo.entity';
-import { GetAuthorization } from 'src/customDecorator/getAuthorization';
 import { GetToken } from '../customDecorator/getToken';
 
 @Resolver('Todo')
@@ -18,12 +17,9 @@ export class TodoResolver {
   @Mutation(() => Boolean)
   async createTodo(
     @Args('input') input: CreateTodoInput,
-    @GetAuthorization() authorization: string,
+    @GetToken() token: string,
   ) {
-    const save = await this.todoService.create(input, authorization);
-    if (!save) {
-      throw new Error('データをセーブ出来ませんでした。');
-    }
+    await this.todoService.create(input, token);
     return true;
   }
 
