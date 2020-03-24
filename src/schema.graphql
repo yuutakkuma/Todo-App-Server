@@ -9,6 +9,7 @@ type Mutation {
   deleteTodo(id: ID!): Boolean
   register(registerInput: RegisterInput!): Boolean
   login(loginInput: LoginInput!): Boolean
+  logOut: Boolean
 }
 
 type Todo {

@@ -11,6 +11,7 @@ import { GqlAuthGuard } from '../auth/gqlAuthGuard';
 import { MyContext } from './myContext';
 import { GetAuthorization } from 'src/customDecorator/getAuthorization';
 import { AuthService } from '../auth/auth.service';
+import { GetToken } from 'src/customDecorator/getToken';
 
 @Resolver('User')
 export class UserResolver {
@@ -31,6 +32,12 @@ export class UserResolver {
     console.log(i);
 
     return '認証済みです！';
+  }
+
+  @Mutation(() => Boolean)
+  async logOut(@Context() ctx: MyContext, @GetToken() token: string) {
+    await this.authService.clearCookiesToken(ctx.res, token);
+    return true;
   }
 
   @Mutation(() => Boolean)
