@@ -1,12 +1,11 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { Response } from 'express';
 
 import { User } from './entity/user.entity';
 import { RegisterInput } from './inputs/registerInput';
 import { LoginInput } from './inputs/loginInput';
-import { AuthService } from './auth/auth.service';
+import { AuthService } from '../auth/auth.service';
 import { MyContext } from './myContext';
 
 @Injectable()
@@ -37,15 +36,15 @@ export class UserService {
     const user = await this.userRepository.findOne({
       where: { email: loginData.email },
     });
-
-    const token = ctx.res.cookie(
-      'jid',
-      await this.authService.accessToken(user),
-    );
-    if (!token) {
-      throw new Error('アクセストークンを生成出来ませんでした。');
+    // アクセストークンを生成
+    const accessToken = await this.authService.createAccessToken(user);
+    // Cookieに保存
+    try {
+      await this.authService.saveAccessToken(ctx.res, accessToken);
+      return true;
+    } catch {
+      console.error('Cookieを追加出来ませんでした。');
+      return false;
     }
-
-    return true;
   }
 }

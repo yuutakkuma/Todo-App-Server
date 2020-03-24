@@ -1,16 +1,29 @@
-import { Entity, PrimaryGeneratedColumn, Column, BaseEntity } from 'typeorm';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  BaseEntity,
+  OneToMany,
+} from 'typeorm';
+import { Todo } from 'src/todo/entity/todo.entity';
 
 @Entity()
 export class User extends BaseEntity {
-  @PrimaryGeneratedColumn('uuid')
+  @PrimaryGeneratedColumn()
   id: number;
 
   @Column()
   userName: string;
-  // 列タイプをtextとし、一意であることをtrueにする
+
   @Column('text', { unique: true })
   email: string;
 
   @Column()
   password: string;
+
+  @OneToMany(
+    () => Todo,
+    todo => todo.user,
+  )
+  todos: Todo[];
 }
