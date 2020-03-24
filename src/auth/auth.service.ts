@@ -54,8 +54,7 @@ export class AuthService {
   // ユーザーIDを特定
   async verifyOfUserId(token: string) {
     try {
-      const data = await this.jwtService.verify(token);
-      return data;
+      return await this.jwtService.verify(token);
     } catch {
       throw new UnauthorizedException('再度ログインしてください。');
     }
