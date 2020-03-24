@@ -40,6 +40,14 @@ export class AuthService {
     res.cookie('jid', token);
   }
 
+  async clearCookiesToken(res: Response, token: string) {
+    try {
+      res.clearCookie('jid', token);
+    } catch {
+      throw new UnauthorizedException('Cookieを削除出来ませんでした。');
+    }
+  }
+
   // ログイン済みか検証
   async verify(authorization: string) {
     try {

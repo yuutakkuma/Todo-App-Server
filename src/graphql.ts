@@ -26,6 +26,7 @@ export interface IMutation {
     deleteTodo(id: string): boolean | Promise<boolean>;
     register(registerInput: RegisterInput): boolean | Promise<boolean>;
     login(loginInput: LoginInput): boolean | Promise<boolean>;
+    logOut(): boolean | Promise<boolean>;
 }
 
 export interface IQuery {
