@@ -45,5 +45,5 @@ export interface User {
     id: string;
     userName: string;
     email: string;
-    todos?: Todo[];
+    loginStatus: boolean;
 }

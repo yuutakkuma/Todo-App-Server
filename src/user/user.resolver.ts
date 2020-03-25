@@ -8,25 +8,15 @@ import { RegisterInput } from './inputs/registerInput';
 import { LoginInput } from './inputs/loginInput';
 import { LoginGuard } from '../auth/loginGuard';
 import { MyContext } from './myContext';
-import { AuthService } from '../auth/auth.service';
 import { GetToken } from '../customDecorator/getToken';
 
 @Resolver('User')
 export class UserResolver {
-  constructor(
-    private readonly userService: UserService,
-    private readonly authService: AuthService,
-  ) {}
+  constructor(private readonly userService: UserService) {}
 
   @Query(() => [UserDto])
   async getUsers() {
     return await this.userService.users();
-  }
-
-  @Mutation(() => Boolean)
-  async logOut(@Context() ctx: MyContext, @GetToken() token: string) {
-    await this.authService.clearCookiesToken(ctx.res, token);
-    return true;
   }
 
   @Mutation(() => Boolean)
@@ -36,11 +26,18 @@ export class UserResolver {
   }
 
   @Mutation(() => Boolean)
+  async logOut(@Context() ctx: MyContext, @GetToken() token: string) {
+    await this.userService.logOut(ctx, token);
+    return true;
+  }
+
+  @Mutation(() => Boolean)
   @UseGuards(LoginGuard)
   async login(
     @Args('loginInput') loginInput: LoginInput,
     @Context() ctx: MyContext,
   ): Promise<boolean> {
-    return await this.userService.login(loginInput, ctx);
+    await this.userService.login(loginInput, ctx);
+    return true;
   }
 }

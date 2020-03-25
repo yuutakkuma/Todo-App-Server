@@ -41,10 +41,25 @@ export class UserService {
     // Cookieに保存
     try {
       await this.authService.saveAccessToken(ctx.res, accessToken);
-      return true;
+      // ログインステータスをtrueに変更
+      await this.userRepository.update({ id: user.id }, { loginStatus: true });
     } catch {
       console.error('Cookieを追加出来ませんでした。');
-      return false;
+    }
+  }
+
+  async logOut(ctx: MyContext, token: string) {
+    try {
+      // トークンを削除
+      await this.authService.clearCookiesToken(ctx.res, token);
+      // ログインステータスをfalseに変更
+      const data = await this.authService.verifyOfUserInfo(token);
+      await this.userRepository.update(
+        { id: data.userId },
+        { loginStatus: false },
+      );
+    } catch {
+      console.error('ログアウトエラー');
     }
   }
 }
