@@ -1,11 +1,4 @@
-import {
-  Entity,
-  PrimaryGeneratedColumn,
-  Column,
-  BaseEntity,
-  OneToMany,
-} from 'typeorm';
-import { Todo } from 'src/todo/entity/todo.entity';
+import { Entity, PrimaryGeneratedColumn, Column, BaseEntity } from 'typeorm';
 
 @Entity()
 export class User extends BaseEntity {
@@ -20,10 +13,4 @@ export class User extends BaseEntity {
 
   @Column()
   password: string;
-
-  @OneToMany(
-    () => Todo,
-    todo => todo.user,
-  )
-  todos: Todo[];
 }
