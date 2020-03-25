@@ -19,6 +19,11 @@ export class UserResolver {
     return await this.userService.users();
   }
 
+  @Query(() => UserDto)
+  async me(@GetToken() token: string) {
+    return await this.userService.me(token);
+  }
+
   @Mutation(() => Boolean)
   async register(@Args('registerInput') registerInput: RegisterInput) {
     registerInput.password = await hash(registerInput.password, 12);

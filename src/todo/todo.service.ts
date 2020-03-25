@@ -14,7 +14,7 @@ export class TodoService {
   ) {}
 
   async todoList(token: string): Promise<Todo[]> {
-    const data = await this.authService.verifyOfUserInfo(token);
+    const data = await this.authService.verifyOfUserId(token);
 
     return await this.todoRepository.find({
       where: { userId: data.userId },
@@ -22,7 +22,7 @@ export class TodoService {
   }
 
   async create(input: CreateTodoInput, token: string): Promise<boolean> {
-    const data = await this.authService.verifyOfUserInfo(token);
+    const data = await this.authService.verifyOfUserId(token);
 
     try {
       await this.todoRepository

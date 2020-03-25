@@ -20,6 +20,11 @@ export class UserService {
     return await this.userRepository.find();
   }
 
+  async me(token: string): Promise<User> {
+    const data = await this.authService.verifyOfUserId(token);
+    return await this.userRepository.findOne({ where: { id: data.userId } });
+  }
+
   // ユーザー新規登録
   async register(registerData: RegisterInput) {
     try {
@@ -53,7 +58,7 @@ export class UserService {
       // トークンを削除
       await this.authService.clearCookiesToken(ctx.res, token);
       // ログインステータスをfalseに変更
-      const data = await this.authService.verifyOfUserInfo(token);
+      const data = await this.authService.verifyOfUserId(token);
       await this.userRepository.update(
         { id: data.userId },
         { loginStatus: false },

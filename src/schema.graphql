@@ -1,7 +1,7 @@
 type Query {
   getTodoList: [Todo]
   getUsers: [User]
-  bye: String
+  me: User
 }
 
 type Mutation {

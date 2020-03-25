@@ -49,7 +49,7 @@ export class AuthService {
   }
 
   // ユーザーIDを特定
-  async verifyOfUserInfo(token: string) {
+  async verifyOfUserId(token: string) {
     try {
       return await this.jwtService.verify(token);
     } catch {
