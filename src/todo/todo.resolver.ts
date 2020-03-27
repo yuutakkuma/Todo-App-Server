@@ -4,12 +4,13 @@ import { TodoService } from './todo.service';
 import { CreateTodoInput } from './inputs/createTodoInput';
 import { Todo } from './entity/todo.entity';
 import { GetToken } from '../customDecorator/getToken';
+import { TodoDto } from './dto/todo.dto';
 
 @Resolver('Todo')
 export class TodoResolver {
   constructor(private readonly todoService: TodoService) {}
 
-  @Query(() => Todo)
+  @Query(() => TodoDto)
   async getTodoList(@GetToken() token: string) {
     return await this.todoService.todoList(token);
   }
