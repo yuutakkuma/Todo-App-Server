@@ -32,7 +32,7 @@ export interface IMutation {
 export interface IQuery {
     getTodoList(): Todo[] | Promise<Todo[]>;
     getUsers(): User[] | Promise<User[]>;
-    bye(): string | Promise<string>;
+    me(): User | Promise<User>;
 }
 
 export interface Todo {
@@ -45,5 +45,5 @@ export interface User {
     id: string;
     userName: string;
     email: string;
-    todos?: Todo[];
+    loginStatus: boolean;
 }

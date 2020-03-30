@@ -4,8 +4,8 @@ import { Request } from 'express';
 export const GetToken = createParamDecorator(
   (data, [root, args, ctx, info]) => {
     const req: Request = ctx.req;
-    const cookie = req.cookies.jid;
+    const token = req.cookies.jid;
 
-    return cookie;
+    return token;
   },
 );

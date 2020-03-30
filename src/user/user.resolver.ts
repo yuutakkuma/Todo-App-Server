@@ -5,13 +5,10 @@ import { UseGuards } from '@nestjs/common';
 import { UserService } from './user.service';
 import { UserDto } from './dto/user.dto';
 import { RegisterInput } from './inputs/registerInput';
-import { LoginInput } from './inputs/loginInput';
 import { LoginGuard } from '../auth/loginGuard';
-import { GqlAuthGuard } from '../auth/gqlAuthGuard';
 import { MyContext } from './myContext';
-import { GetAuthorization } from 'src/customDecorator/getAuthorization';
+import { GetToken } from '../customDecorator/getToken';
 import { AuthService } from '../auth/auth.service';
-import { GetToken } from 'src/customDecorator/getToken';
 
 @Resolver('User')
 export class UserResolver {
@@ -24,34 +21,28 @@ export class UserResolver {
   async getUsers() {
     return await this.userService.users();
   }
-  // jwtで認証できるか実験
-  @Query(() => String)
-  @UseGuards(GqlAuthGuard)
-  async bye(@GetAuthorization() authorization: string) {
-    const i = await this.authService.verifyOfUserId(authorization);
-    console.log(i);
 
-    return '認証済みです！';
-  }
-
-  @Mutation(() => Boolean)
-  async logOut(@Context() ctx: MyContext, @GetToken() token: string) {
-    await this.authService.clearCookiesToken(ctx.res, token);
-    return true;
+  @Query(() => UserDto)
+  async me(@GetToken() token: string) {
+    const payload = await this.authService.verify(token);
+    return await this.userService.me(payload);
   }
 
   @Mutation(() => Boolean)
   async register(@Args('registerInput') registerInput: RegisterInput) {
-    registerInput.password = await hash(registerInput.password, 12);
     return await this.userService.register(registerInput);
   }
 
   @Mutation(() => Boolean)
+  async logOut(@Context() ctx: MyContext, @GetToken() token: string) {
+    const payload = await this.authService.verify(token);
+    await this.authService.clearCookiesToken(ctx.res, token);
+    return await this.userService.loginStutasFalse(payload);
+  }
+
+  @Mutation(() => Boolean)
   @UseGuards(LoginGuard)
-  async login(
-    @Args('loginInput') loginInput: LoginInput,
-    @Context() ctx: MyContext,
-  ): Promise<boolean> {
-    return await this.userService.login(loginInput, ctx);
+  async login(): Promise<boolean> {
+    return true;
   }
 }

@@ -21,14 +21,14 @@ export class TodoService {
     });
   }
 
-  async create(data: CreateTodoInput, authorization: string): Promise<boolean> {
-    const userId = await this.authService.verifyOfUserId(authorization);
+  async create(input: CreateTodoInput, token: string): Promise<boolean> {
+    const data = await this.authService.verifyOfUserId(token);
 
     try {
       await this.todoRepository
         .create({
-          title: data.title,
-          userId: userId,
+          title: input.title,
+          userId: data.userId,
         })
         .save();
       return true;

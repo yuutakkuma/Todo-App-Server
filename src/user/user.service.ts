@@ -1,18 +1,21 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
 import { User } from './entity/user.entity';
 import { RegisterInput } from './inputs/registerInput';
 import { LoginInput } from './inputs/loginInput';
-import { AuthService } from '../auth/auth.service';
-import { MyContext } from './myContext';
+import { compare, hash } from 'bcryptjs';
+
+interface payload {
+  userId: number;
+  userEmail: string;
+}
 
 @Injectable()
 export class UserService {
   constructor(
     @InjectRepository(User) private readonly userRepository: Repository<User>,
-    private readonly authService: AuthService,
   ) {}
 
   // 全ユーザーを取得
@@ -20,31 +23,57 @@ export class UserService {
     return await this.userRepository.find();
   }
 
+  async me(payload: payload): Promise<User> {
+    return await this.userRepository.findOne({
+      where: { id: payload.userId },
+    });
+  }
+
   // ユーザー新規登録
   async register(registerData: RegisterInput) {
+    //　パスワードをハッシュ化
+    registerData.password = await hash(registerData.password, 12);
+    // DBへ保存
     try {
       await this.userRepository.create(registerData).save();
+      return true;
     } catch {
       console.log('ユーザーを登録出来ませんでした。');
       return false;
     }
-    return true;
   }
 
-  // ログイン
-  async login(loginData: LoginInput, ctx: MyContext) {
+  // ユーザー検証
+  async validateUser(loginData: LoginInput): Promise<User> {
     const user = await this.userRepository.findOne({
       where: { email: loginData.email },
     });
-    // アクセストークンを生成
-    const accessToken = await this.authService.createAccessToken(user);
-    // Cookieに保存
+
+    if (typeof user === 'undefined') {
+      throw new UnauthorizedException('ユーザーが見つかりませんでした。');
+    }
+
+    const valid = await compare(loginData.password, user.password);
+    if (!valid) {
+      throw new UnauthorizedException('パスワードが間違ってます。');
+    }
+
+    return user;
+  }
+
+  async loginStutasTrue(user: User) {
+    await this.userRepository.update({ id: user.id }, { loginStatus: true });
+  }
+
+  async loginStutasFalse(payload: payload) {
     try {
-      await this.authService.saveAccessToken(ctx.res, accessToken);
+      await this.userRepository.update(
+        { id: payload.userId },
+        { loginStatus: false },
+      );
       return true;
     } catch {
-      console.error('Cookieを追加出来ませんでした。');
-      return false;
+      throw new Error('ログインステータスを更新出来ませんでした。');
     }
   }
 }

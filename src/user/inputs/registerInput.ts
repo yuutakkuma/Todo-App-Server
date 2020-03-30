@@ -11,5 +11,6 @@ export class RegisterInput {
   @IsEmail()
   email: string;
 
+  @Field()
   password: string;
 }
