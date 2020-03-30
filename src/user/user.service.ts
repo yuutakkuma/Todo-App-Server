@@ -6,11 +6,7 @@ import { User } from './entity/user.entity';
 import { RegisterInput } from './inputs/registerInput';
 import { LoginInput } from './inputs/loginInput';
 import { compare, hash } from 'bcryptjs';
-
-interface payload {
-  userId: number;
-  userEmail: string;
-}
+import { JwtPayload } from '../models/jwtPayload';
 
 @Injectable()
 export class UserService {
@@ -23,7 +19,7 @@ export class UserService {
     return await this.userRepository.find();
   }
 
-  async me(payload: payload): Promise<User> {
+  async me(payload: JwtPayload): Promise<User> {
     return await this.userRepository.findOne({
       where: { id: payload.userId },
     });
@@ -65,7 +61,7 @@ export class UserService {
     await this.userRepository.update({ id: user.id }, { loginStatus: true });
   }
 
-  async loginStutasFalse(payload: payload) {
+  async loginStutasFalse(payload: JwtPayload) {
     try {
       await this.userRepository.update(
         { id: payload.userId },
