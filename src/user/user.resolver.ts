@@ -5,14 +5,17 @@ import { UseGuards } from '@nestjs/common';
 import { UserService } from './user.service';
 import { UserDto } from './dto/user.dto';
 import { RegisterInput } from './inputs/registerInput';
-import { LoginInput } from './inputs/loginInput';
 import { LoginGuard } from '../auth/loginGuard';
 import { MyContext } from './myContext';
 import { GetToken } from '../customDecorator/getToken';
+import { AuthService } from '../auth/auth.service';
 
 @Resolver('User')
 export class UserResolver {
-  constructor(private readonly userService: UserService) {}
+  constructor(
+    private readonly userService: UserService,
+    private readonly authService: AuthService,
+  ) {}
 
   @Query(() => [UserDto])
   async getUsers() {
@@ -21,28 +24,25 @@ export class UserResolver {
 
   @Query(() => UserDto)
   async me(@GetToken() token: string) {
-    return await this.userService.me(token);
+    const payload = await this.authService.verify(token);
+    return await this.userService.me(payload);
   }
 
   @Mutation(() => Boolean)
   async register(@Args('registerInput') registerInput: RegisterInput) {
-    registerInput.password = await hash(registerInput.password, 12);
     return await this.userService.register(registerInput);
   }
 
   @Mutation(() => Boolean)
   async logOut(@Context() ctx: MyContext, @GetToken() token: string) {
-    await this.userService.logOut(ctx, token);
-    return true;
+    const payload = await this.authService.verify(token);
+    await this.authService.clearCookiesToken(ctx.res, token);
+    return await this.userService.loginStutasFalse(payload);
   }
 
   @Mutation(() => Boolean)
   @UseGuards(LoginGuard)
-  async login(
-    @Args('loginInput') loginInput: LoginInput,
-    @Context() ctx: MyContext,
-  ): Promise<boolean> {
-    await this.userService.login(loginInput, ctx);
+  async login(): Promise<boolean> {
     return true;
   }
 }
