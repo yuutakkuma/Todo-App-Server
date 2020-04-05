@@ -26,14 +26,14 @@ export class UserService {
   }
 
   // ユーザー新規登録
-  async saveRegister(userName: string, email: string, password: string) {
+  async saveRegister(nickName: string, email: string, password: string) {
     //　パスワードをハッシュ化
     const hashedPassword = await hash(password, 12);
     // DBへ保存
     try {
       await this.userRepository
         .create({
-          userName: userName,
+          nickName: nickName,
           email: email,
           password: hashedPassword,
         })
