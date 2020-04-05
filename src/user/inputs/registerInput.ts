@@ -12,5 +12,6 @@ export class RegisterInput {
   email: string;
 
   @Field()
+  @Length(4, 16, { message: 'パスワードは4文字以上、16文字以下です。' })
   password: string;
 }
