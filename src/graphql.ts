@@ -16,7 +16,7 @@ export interface LoginInput {
 }
 
 export interface RegisterInput {
-    userName: string;
+    nickName: string;
     email: string;
     password: string;
 }
@@ -43,7 +43,7 @@ export interface Todo {
 
 export interface User {
     id: string;
-    userName: string;
+    nickName: string;
     email: string;
     loginStatus: boolean;
 }

@@ -24,13 +24,13 @@ input CreateTodoInput {
 
 type User {
   id: ID!
-  userName: String!
+  nickName: String!
   email: String!
   loginStatus: Boolean!
 }
 
 input RegisterInput {
-  userName: String!
+  nickName: String!
   email: String!
   password: String!
 }
