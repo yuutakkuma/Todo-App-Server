@@ -4,11 +4,11 @@ import { InputType, Field } from 'type-graphql';
 @InputType()
 export class RegisterInput {
   @Field()
-  @Length(1, 30)
+  @Length(1, 30, { message: 'ニックネームは1文字以上、30文字以下です。' })
   userName: string;
 
   @Field()
-  @IsEmail()
+  @IsEmail({}, { message: 'Emailを入力してください。' })
   email: string;
 
   @Field()

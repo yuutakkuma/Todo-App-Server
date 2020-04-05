@@ -29,8 +29,10 @@ export class UserResolver {
   }
 
   @Mutation(() => Boolean)
-  async register(@Args('registerInput') registerInput: RegisterInput) {
-    return await this.userService.register(registerInput);
+  async register(
+    @Args('registerInput') { userName, email, password }: RegisterInput,
+  ) {
+    return await this.userService.saveRegister(userName, email, password);
   }
 
   @Mutation(() => Boolean)
