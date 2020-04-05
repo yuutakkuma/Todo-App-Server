@@ -26,12 +26,18 @@ export class UserService {
   }
 
   // ユーザー新規登録
-  async register(registerData: RegisterInput) {
+  async saveRegister(userName: string, email: string, password: string) {
     //　パスワードをハッシュ化
-    registerData.password = await hash(registerData.password, 12);
+    const hashedPassword = await hash(password, 12);
     // DBへ保存
     try {
-      await this.userRepository.create(registerData).save();
+      await this.userRepository
+        .create({
+          userName: userName,
+          email: email,
+          password: hashedPassword,
+        })
+        .save();
       return true;
     } catch {
       console.log('ユーザーを登録出来ませんでした。');

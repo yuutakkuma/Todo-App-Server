@@ -2,10 +2,9 @@ import { Resolver, Query, Mutation, Args } from '@nestjs/graphql';
 
 import { TodoService } from './todo.service';
 import { CreateTodoInput } from './inputs/createTodoInput';
-import { Todo } from './entity/todo.entity';
 import { GetToken } from '../customDecorator/getToken';
 import { TodoDto } from './dto/todo.dto';
-import { AuthService } from 'src/auth/auth.service';
+import { AuthService } from '../auth/auth.service';
 
 @Resolver('Todo')
 export class TodoResolver {
