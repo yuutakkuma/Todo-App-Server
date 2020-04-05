@@ -4,7 +4,7 @@ import { InputType, Field } from 'type-graphql';
 @InputType()
 export class RegisterInput {
   @Field()
-  @Length(1, 30, { message: 'ニックネームは1文字以上、30文字以下です。' })
+  @Length(1, 20, { message: 'ニックネームは1文字以上、20文字以下です。' })
   nickName: string;
 
   @Field()
