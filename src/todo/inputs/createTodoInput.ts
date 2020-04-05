@@ -1,10 +1,9 @@
 import { InputType, Field } from 'type-graphql';
-import { MaxLength } from 'class-validator';
+import { Length } from 'class-validator';
 
 @InputType()
 export class CreateTodoInput {
-  // 30文字まで
-  @MaxLength(30)
+  @Length(1, 25, { message: '1文字以上、25文字以下になります。' })
   @Field()
   title: string;
 }
