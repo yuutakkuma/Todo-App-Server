@@ -10,6 +10,12 @@ export interface CreateTodoInput {
     title: string;
 }
 
+export interface DeleteAccountInput {
+    nickName: string;
+    email: string;
+    password: string;
+}
+
 export interface LoginInput {
     email: string;
     password: string;
@@ -27,10 +33,12 @@ export interface IMutation {
     register(registerInput: RegisterInput): boolean | Promise<boolean>;
     login(loginInput: LoginInput): boolean | Promise<boolean>;
     logOut(): boolean | Promise<boolean>;
+    deleteAccount(deleteAccountInput: DeleteAccountInput): boolean | Promise<boolean>;
 }
 
 export interface IQuery {
     getTodoList(): Todo[] | Promise<Todo[]>;
+    allTodoList(): Todo[] | Promise<Todo[]>;
     getUsers(): User[] | Promise<User[]>;
     me(): User | Promise<User>;
 }

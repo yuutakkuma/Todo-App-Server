@@ -5,9 +5,10 @@ import { User } from './entity/user.entity';
 import { UserService } from './user.service';
 import { UserResolver } from './user.resolver';
 import { AuthModule } from '../auth/auth.module';
+import { TodoModule } from 'src/todo/todo.module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([User]), AuthModule],
+  imports: [TypeOrmModule.forFeature([User]), AuthModule, TodoModule],
   providers: [UserService, UserResolver],
   exports: [UserService],
 })

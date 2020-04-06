@@ -1,5 +1,6 @@
 type Query {
   getTodoList: [Todo]
+  allTodoList: [Todo]
   getUsers: [User]
   me: User
 }
@@ -10,6 +11,7 @@ type Mutation {
   register(registerInput: RegisterInput!): Boolean
   login(loginInput: LoginInput!): Boolean
   logOut: Boolean
+  deleteAccount(deleteAccountInput: DeleteAccountInput!): Boolean
 }
 
 type Todo {
@@ -36,6 +38,12 @@ input RegisterInput {
 }
 
 input LoginInput {
+  email: String!
+  password: String!
+}
+
+input DeleteAccountInput {
+  nickName: String!
   email: String!
   password: String!
 }
