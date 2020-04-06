@@ -1,5 +1,4 @@
 import { Resolver, Query, Mutation, Args, Context } from '@nestjs/graphql';
-import { hash } from 'bcryptjs';
 import { UseGuards } from '@nestjs/common';
 
 import { UserService } from './user.service';
@@ -9,12 +8,15 @@ import { LoginGuard } from '../auth/loginGuard';
 import { MyContext } from './myContext';
 import { GetToken } from '../customDecorator/getToken';
 import { AuthService } from '../auth/auth.service';
+import { DeleteAccountInput } from './inputs/deleteAccountInput';
+import { TodoService } from '../todo/todo.service';
 
 @Resolver('User')
 export class UserResolver {
   constructor(
     private readonly userService: UserService,
     private readonly authService: AuthService,
+    private readonly todoService: TodoService,
   ) {}
 
   @Query(() => [UserDto])
@@ -33,6 +35,25 @@ export class UserResolver {
     @Args('registerInput') { nickName, email, password }: RegisterInput,
   ) {
     return await this.userService.saveRegister(nickName, email, password);
+  }
+
+  @Mutation(() => Boolean)
+  async deleteAccount(
+    @GetToken() token: string,
+    @Args('deleteAccuntInput')
+    { nickName, email, password }: DeleteAccountInput,
+    @Context() ctx: MyContext,
+  ) {
+    // Cookieからユーザー情報を取得
+    const payload = await this.authService.verify(token);
+    const data = await this.userService.me(payload);
+    // 先にTodoListを削除
+    await this.todoService.todoAllDelete(payload);
+    // ユーザーを削除
+    await this.userService.executeDelete(nickName, email, password, data);
+    // Cookieを削除
+    await this.authService.clearCookiesToken(ctx.res, token);
+    return true;
   }
 
   @Mutation(() => Boolean)

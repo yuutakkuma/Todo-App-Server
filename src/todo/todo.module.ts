@@ -9,5 +9,6 @@ import { AuthModule } from '../auth/auth.module';
 @Module({
   imports: [TypeOrmModule.forFeature([Todo]), AuthModule],
   providers: [TodoService, TodoResolver],
+  exports: [TodoService],
 })
 export class TodoModule {}

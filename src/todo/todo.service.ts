@@ -17,6 +17,10 @@ export class TodoService {
       where: { userId: payload.userId },
     });
   }
+  // 開発用
+  async allTodoList() {
+    return await this.todoRepository.find();
+  }
 
   async create(input: CreateTodoInput, payload: JwtPayload): Promise<boolean> {
     try {
@@ -42,6 +46,17 @@ export class TodoService {
       return true;
     } catch {
       throw new UnauthorizedException('削除に失敗しました。');
+    }
+  }
+
+  async todoAllDelete(payload: JwtPayload) {
+    try {
+      const allTodo = await this.todoRepository.find({
+        where: { userId: payload.userId },
+      });
+      await this.todoRepository.remove(allTodo);
+    } catch {
+      throw new UnauthorizedException('TodoListの削除に失敗しました。');
     }
   }
 }

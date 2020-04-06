@@ -63,6 +63,31 @@ export class UserService {
     return user;
   }
 
+  async executeDelete(
+    nickName: string,
+    email: string,
+    password: string,
+    userData: User,
+  ) {
+    // パスワード検証
+    const valid = await compare(password, userData.password);
+    if (!valid) {
+      throw new UnauthorizedException('パスワードが間違ってます。');
+    }
+    // 全て一致したらユーザーを削除
+    if (
+      nickName === userData.nickName &&
+      email === userData.email &&
+      valid === true
+    ) {
+      await this.userRepository.delete(userData);
+    } else {
+      throw new UnauthorizedException(
+        'メールアドレス、又はニックネームが違います。',
+      );
+    }
+  }
+
   async loginStutasTrue(user: User) {
     await this.userRepository.update({ id: user.id }, { loginStatus: true });
   }

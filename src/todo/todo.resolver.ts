@@ -18,6 +18,11 @@ export class TodoResolver {
     const payload = await this.authService.verify(token);
     return await this.todoService.todoList(payload);
   }
+  // 開発用
+  @Query(() => [TodoDto])
+  async allTodoList() {
+    return await this.todoService.allTodoList();
+  }
 
   @Mutation(() => Boolean)
   async createTodo(
