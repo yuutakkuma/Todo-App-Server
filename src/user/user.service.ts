@@ -69,6 +69,10 @@ export class UserService {
     password: string,
     userData: User,
   ) {
+    // テストユーザーは削除出来ないようにする
+    if (email === 'test@test.com') {
+      throw new UnauthorizedException('テストユーザーは削除出来ません。');
+    }
     // パスワード検証
     const valid = await compare(password, userData.password);
     if (!valid) {

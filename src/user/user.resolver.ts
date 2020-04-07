@@ -1,5 +1,5 @@
 import { Resolver, Query, Mutation, Args, Context } from '@nestjs/graphql';
-import { UseGuards } from '@nestjs/common';
+import { UseGuards, UsePipes, ValidationPipe } from '@nestjs/common';
 
 import { UserService } from './user.service';
 import { UserDto } from './dto/user.dto';
@@ -40,17 +40,17 @@ export class UserResolver {
   @Mutation(() => Boolean)
   async deleteAccount(
     @GetToken() token: string,
-    @Args('deleteAccuntInput')
+    @Args('deleteAccountInput')
     { nickName, email, password }: DeleteAccountInput,
     @Context() ctx: MyContext,
   ) {
     // Cookieからユーザー情報を取得
     const payload = await this.authService.verify(token);
     const data = await this.userService.me(payload);
-    // 先にTodoListを削除
-    await this.todoService.todoAllDelete(payload);
     // ユーザーを削除
     await this.userService.executeDelete(nickName, email, password, data);
+    // TodoListを削除
+    await this.todoService.todoAllDelete(payload);
     // Cookieを削除
     await this.authService.clearCookiesToken(ctx.res, token);
     return true;
