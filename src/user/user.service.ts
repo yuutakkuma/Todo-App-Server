@@ -33,7 +33,7 @@ export class UserService {
     try {
       await this.userRepository
         .create({
-          nickName: nickName,
+          nickname: nickName,
           email: email,
           password: hashedPassword,
         })
@@ -80,7 +80,7 @@ export class UserService {
     }
     // 全て一致したらユーザーを削除
     if (
-      nickName === userData.nickName &&
+      nickName === userData.nickname &&
       email === userData.email &&
       valid === true
     ) {
@@ -93,14 +93,14 @@ export class UserService {
   }
 
   async loginStutasTrue(user: User) {
-    await this.userRepository.update({ id: user.id }, { loginStatus: true });
+    await this.userRepository.update({ id: user.id }, { loginstatus: true });
   }
 
   async loginStutasFalse(payload: JwtPayload) {
     try {
       await this.userRepository.update(
         { id: payload.userId },
-        { loginStatus: false },
+        { loginstatus: false },
       );
       return true;
     } catch {

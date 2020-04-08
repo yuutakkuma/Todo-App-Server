@@ -32,23 +32,23 @@ export class UserResolver {
 
   @Mutation(() => Boolean)
   async register(
-    @Args('registerInput') { nickName, email, password }: RegisterInput,
+    @Args('registerInput') { nickname, email, password }: RegisterInput,
   ) {
-    return await this.userService.saveRegister(nickName, email, password);
+    return await this.userService.saveRegister(nickname, email, password);
   }
 
   @Mutation(() => Boolean)
   async deleteAccount(
     @GetToken() token: string,
     @Args('deleteAccountInput')
-    { nickName, email, password }: DeleteAccountInput,
+    { nickname, email, password }: DeleteAccountInput,
     @Context() ctx: MyContext,
   ) {
     // Cookieからユーザー情報を取得
     const payload = await this.authService.verify(token);
     const data = await this.userService.me(payload);
     // ユーザーを削除
-    await this.userService.executeDelete(nickName, email, password, data);
+    await this.userService.executeDelete(nickname, email, password, data);
     // TodoListを削除
     await this.todoService.todoAllDelete(payload);
     // Cookieを削除
