@@ -1,6 +1,6 @@
 import { Entity, Column, PrimaryGeneratedColumn, BaseEntity } from 'typeorm';
 
-@Entity({ synchronize: true })
+@Entity('todos', { synchronize: true })
 export class Todo extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: number;
