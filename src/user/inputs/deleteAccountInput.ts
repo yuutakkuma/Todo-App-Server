@@ -3,7 +3,7 @@ import { InputType, Field } from 'type-graphql';
 @InputType()
 export class DeleteAccountInput {
   @Field()
-  nickName: string;
+  nickname: string;
 
   @Field()
   email: string;
