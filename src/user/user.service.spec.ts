@@ -4,7 +4,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { UserService } from './user.service';
 import { RegisterInput } from './inputs/registerInput';
 import { LoginInput } from './inputs/loginInput';
-import { User } from './entity/user.entity';
+import { TestUser } from './test-utils/testUser';
 
 let userService: UserService;
 let registerInput: RegisterInput;
@@ -22,7 +22,7 @@ beforeAll(async () => {
     password: 'test',
   };
   registerInput = {
-    userName: user.name,
+    nickname: user.name,
     email: user.email,
     password: user.password,
   };
@@ -41,9 +41,9 @@ beforeAll(async () => {
         database: 'todo-app-test',
         synchronize: true,
         dropSchema: true,
-        entities: [__dirname, '**/*.entity.ts'],
+        entities: [__dirname, 'src/user/tist-utils/testUser.ts'],
       }),
-      TypeOrmModule.forFeature([User]),
+      TypeOrmModule.forFeature([TestUser]),
     ],
     providers: [UserService],
   }).compile();
@@ -56,11 +56,19 @@ afterAll(async () => {
 
 describe('UserService', () => {
   test('ユーザー情報を保存', async () => {
-    const register = await userService.register(registerInput);
+    const register = await userService.saveRegister(
+      registerInput.nickname,
+      registerInput.email,
+      registerInput.password,
+    );
     expect(register).toBe(true);
   });
   test('ユーザー情報の保存に失敗', async () => {
-    const newRegister = await userService.register(registerInput);
+    const newRegister = await userService.saveRegister(
+      registerInput.nickname,
+      registerInput.email,
+      registerInput.password,
+    );
     expect(newRegister).toBeFalsy();
   });
   test('ユーザー検証に成功し、ログインステータスをtrueに更新', async () => {
@@ -69,7 +77,7 @@ describe('UserService', () => {
     await userService.loginStutasTrue(user);
     const beenUpdatedUser = await userService.validateUser(loginInput);
     // console.log(beenUpdatedUser);
-    expect(beenUpdatedUser.loginStatus).toBe(true);
+    expect(beenUpdatedUser.loginstatus).toBe(true);
   });
   test('自身のユーザー情報を取得', async () => {
     const users = await userService.me(meData);
