@@ -1,8 +1,8 @@
 type Query {
   getTodoList: [Todo]
   allTodoList: [Todo]
-  getUsers: [User]
-  me: User
+  getUsers: [Users]
+  me: Users
 }
 
 type Mutation {
@@ -24,15 +24,15 @@ input CreateTodoInput {
   title: String!
 }
 
-type User {
+type Users {
   id: ID!
-  nickName: String!
+  nickname: String!
   email: String!
-  loginStatus: Boolean!
+  loginstatus: Boolean!
 }
 
 input RegisterInput {
-  nickName: String!
+  nickname: String!
   email: String!
   password: String!
 }
@@ -43,7 +43,7 @@ input LoginInput {
 }
 
 input DeleteAccountInput {
-  nickName: String!
+  nickname: String!
   email: String!
   password: String!
 }

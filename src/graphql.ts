@@ -11,7 +11,7 @@ export interface CreateTodoInput {
 }
 
 export interface DeleteAccountInput {
-    nickName: string;
+    nickname: string;
     email: string;
     password: string;
 }
@@ -22,7 +22,7 @@ export interface LoginInput {
 }
 
 export interface RegisterInput {
-    nickName: string;
+    nickname: string;
     email: string;
     password: string;
 }
@@ -39,8 +39,8 @@ export interface IMutation {
 export interface IQuery {
     getTodoList(): Todo[] | Promise<Todo[]>;
     allTodoList(): Todo[] | Promise<Todo[]>;
-    getUsers(): User[] | Promise<User[]>;
-    me(): User | Promise<User>;
+    getUsers(): Users[] | Promise<Users[]>;
+    me(): Users | Promise<Users>;
 }
 
 export interface Todo {
@@ -49,9 +49,9 @@ export interface Todo {
     title: string;
 }
 
-export interface User {
+export interface Users {
     id: string;
-    nickName: string;
+    nickname: string;
     email: string;
-    loginStatus: boolean;
+    loginstatus: boolean;
 }

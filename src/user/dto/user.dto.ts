@@ -6,7 +6,7 @@ export class UserDto {
   readonly id: number;
 
   @Field()
-  readonly userName: string;
+  readonly username: string;
 
   @Field()
   readonly email: string;
@@ -14,5 +14,5 @@ export class UserDto {
   readonly password: string;
 
   @Field()
-  readonly loginStatus: boolean;
+  readonly loginstatus: boolean;
 }

@@ -1,19 +1,19 @@
 import { Entity, PrimaryGeneratedColumn, Column, BaseEntity } from 'typeorm';
 
-@Entity()
+@Entity({ name: 'users', synchronize: false })
 export class User extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column()
-  nickName: string;
+  @Column('text', { nullable: false })
+  nickname: string;
 
-  @Column('text', { unique: true })
+  @Column('text', { unique: true, nullable: false })
   email: string;
 
-  @Column()
+  @Column('text', { nullable: false })
   password: string;
 
   @Column({ default: false })
-  loginStatus: boolean;
+  loginstatus: boolean;
 }
