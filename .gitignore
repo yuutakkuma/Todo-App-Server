@@ -1,5 +1,6 @@
 .env
 pgdata
+deploy_server.sh
 # compiled output
 /dist
 /node_modules
