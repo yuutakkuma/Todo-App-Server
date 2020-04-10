@@ -1,5 +1,5 @@
 import { Resolver, Query, Mutation, Args, Context } from '@nestjs/graphql';
-import { UseGuards, UsePipes, ValidationPipe } from '@nestjs/common';
+import { UseGuards } from '@nestjs/common';
 
 import { UserService } from './user.service';
 import { UserDto } from './dto/user.dto';
@@ -10,6 +10,7 @@ import { GetToken } from '../customDecorator/getToken';
 import { AuthService } from '../auth/auth.service';
 import { DeleteAccountInput } from './inputs/deleteAccountInput';
 import { TodoService } from '../todo/todo.service';
+import { LoginInput } from './inputs/loginInput';
 
 @Resolver('User')
 export class UserResolver {
@@ -67,5 +68,20 @@ export class UserResolver {
   @UseGuards(LoginGuard)
   async login(): Promise<boolean> {
     return true;
+  }
+
+  // テストユーザーログイン専用クエリ
+  @Mutation(() => Boolean)
+  async testUserLogin(
+    @Args('loginInput') { email, password }: LoginInput,
+    @Context() ctx: MyContext,
+  ) {
+    const testUser = await this.userService.validateTestUser(email, password);
+    // アクセストークン生成
+    const accessToken = await this.authService.createAccessToken(testUser);
+    // ログインステータス更新
+    await this.userService.loginStutasTrue(testUser);
+    // アクセストークンをCookieに保存
+    return await this.authService.saveAccessToken(ctx.res, accessToken);
   }
 }

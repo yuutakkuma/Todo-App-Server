@@ -63,6 +63,13 @@ export class UserService {
     return user;
   }
 
+  // テストユーザー専用の検証メソッド
+  async validateTestUser(email: string, password: string): Promise<User> {
+    return await this.userRepository.findOne({
+      where: { email: email, password: password },
+    });
+  }
+
   async executeDelete(
     nickName: string,
     email: string,

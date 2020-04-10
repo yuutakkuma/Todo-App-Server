@@ -32,6 +32,7 @@ export interface IMutation {
     deleteTodo(id: string): boolean | Promise<boolean>;
     register(registerInput: RegisterInput): boolean | Promise<boolean>;
     login(loginInput: LoginInput): boolean | Promise<boolean>;
+    testUserLogin(loginInput: LoginInput): boolean | Promise<boolean>;
     logOut(): boolean | Promise<boolean>;
     deleteAccount(deleteAccountInput: DeleteAccountInput): boolean | Promise<boolean>;
 }

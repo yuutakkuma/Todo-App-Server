@@ -10,6 +10,7 @@ type Mutation {
   deleteTodo(id: ID!): Boolean
   register(registerInput: RegisterInput!): Boolean
   login(loginInput: LoginInput!): Boolean
+  testUserLogin(loginInput: LoginInput!): Boolean
   logOut: Boolean
   deleteAccount(deleteAccountInput: DeleteAccountInput!): Boolean
 }
