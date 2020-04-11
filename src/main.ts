@@ -23,7 +23,6 @@ async function bootstrap() {
     origin: clientUrl,
     credentials: true,
   });
-  console.log(clientUrl);
 
   app.useGlobalPipes(new ValidationPipe());
   const port = Number(process.env.PORT) || 4000;
