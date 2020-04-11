@@ -65,7 +65,7 @@ Paas
 (注)yarn をインストールしてない方は別途インストールをお願いします。
 
 ```bash
-% cd todo-app-client
+% cd todo-app-server
 % yarn
 ```
 
