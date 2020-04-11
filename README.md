@@ -69,7 +69,7 @@ Paas
 % yarn
 ```
 
-3,todo-app-server ディレクトリ直下に.env ファイルを作成し,下記をコピーしてください。  
+3,todo-app-server ディレクトリ直下に.env ファイルを作成し,下記をコピペしてください。  
 (注).env ファイルは通常公開しません、今回はポートフォリオ作成なので公開しています。
 
 ```:/.env
@@ -85,7 +85,7 @@ ACCESS_TOKEN_SECRET=feojfanlkefj
 CLIENT_DEVELOPMENT_URL=http://localhost:3000
 ```
 
-4,Docker を起動します。
+4,Docker を起動します。(自動でテストユーザーが作成されます。)
 PostgreSQL と Admin が同時に立ち上がりますが、Admin を使用したく無い方は予め docker-compose.yml の adminer をコメントアウトしてください。  
 (注)Docker をインストールしてない方は別途インストールしてください。
 
@@ -104,4 +104,5 @@ PostgreSQL と Admin が同時に立ち上がりますが、Admin を使用し�
 ```
 
 6,ターミナルに表示される URL にアクセス又は下記からアクセスしてください。  
-http://localhost:4000/graphql
+http://localhost:4000/graphql  
+GraphQL クエリは画面右端にある DOCS、SCHEMA から確認出来ます。
