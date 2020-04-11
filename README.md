@@ -1,75 +1,107 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo_text.svg" width="320" alt="Nest Logo" /></a>
-</p>
+### 当アプリについて
 
-[travis-image]: https://api.travis-ci.org/nestjs/nest.svg?branch=master
-[travis-url]: https://travis-ci.org/nestjs/nest
-[linux-image]: https://img.shields.io/travis/nestjs/nest/master.svg?label=linux
-[linux-url]: https://travis-ci.org/nestjs/nest
-  
-  <p align="center">A progressive <a href="http://nodejs.org" target="blank">Node.js</a> framework for building efficient and scalable server-side applications, heavily inspired by <a href="https://angular.io" target="blank">Angular</a>.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore"><img src="https://img.shields.io/npm/dm/@nestjs/core.svg" alt="NPM Downloads" /></a>
-<a href="https://travis-ci.org/nestjs/nest"><img src="https://api.travis-ci.org/nestjs/nest.svg?branch=master" alt="Travis" /></a>
-<a href="https://travis-ci.org/nestjs/nest"><img src="https://img.shields.io/travis/nestjs/nest/master.svg?label=linux" alt="Linux" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#5" alt="Coverage" /></a>
-<a href="https://gitter.im/nestjs/nestjs?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=body_badge"><img src="https://badges.gitter.im/nestjs/nestjs.svg" alt="Gitter" /></a>
-<a href="https://opencollective.com/nest#backer"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec"><img src="https://img.shields.io/badge/Donate-PayPal-dc3d53.svg"/></a>
-  <a href="https://twitter.com/nestframework"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+こちらはポートフォリオ用に作成した<a href="https://github.com/yuuta-wata/Todo-App-Client" alt="Todo-App-Client">Todo-App-Client</a>の API サーバーになります。
 
-## Description
+## 実装機能
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+ユーザー機能
 
-## Installation
+- 新規登録
+- ログイン
+- ログアウト
+- アカウント削除
+- ログインユーザー情報取得
+- 全ユーザー情報取得
+- テストユーザー専用ログイン
+
+タスク機能
+
+- タスク投稿
+- タスク情報取得
+- 全ユーザーのタスク情報取得
+- タスク削除
+
+認証・検証
+
+- Cookie
+
+## 使用技術
+
+フレームワーク
+
+- Nest.js
+
+クエリ
+
+- GraphQL
+- SQL
+
+データベース
+
+- PostgrSQL
+- Admin
+
+Cookie
+
+- JWT
+
+開発環境
+
+- Docker/docker-compose
+
+Paas
+
+- Heroku
+
+## ローカルでの起動方法
+
+1,お好きなディレクトリにクローンしてください。
 
 ```bash
-$ npm install
+% git clone https://github.com/yuuta-wata/Todo-App-Server.git
 ```
 
-## Running the app
+2,ライプラリのインストールを行います。  
+(注)yarn をインストールしてない方は別途インストールをお願いします。
 
 ```bash
-# development
-$ npm run start
-
-# watch mode
-$ npm run start:dev
-
-# production mode
-$ npm run start:prod
+% cd todo-app-client
+% yarn
 ```
 
-## Test
+3,todo-app-server ディレクトリ直下に.env ファイルを作成し,下記をコピーしてください。  
+(注).env ファイルは通常公開しません、今回はポートフォリオ作成なので公開しています。
+
+```:/.env
+
+TYPEORM_CONNECTION=postgres
+TYPEORM_HOST=localhost
+TYPEORM_USERNAME=postgres
+TYPEORM_PASSWORD=postgres
+TYPEORM_DATABASE=todo-app
+TYPEORM_PORT=5432
+
+ACCESS_TOKEN_SECRET=feojfanlkefj
+CLIENT_DEVELOPMENT_URL=http://localhost:3000
+```
+
+4,Docker を起動します。
+PostgreSQL と Admin が同時に立ち上がりますが、Admin を使用したく無い方は予め docker-compose.yml の adminer をコメントアウトしてください。  
+(注)Docker をインストールしてない方は別途インストールしてください。
 
 ```bash
-# unit tests
-$ npm run test
-
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
+% docker-compose up
+又は
+% docker-compose up -d
 ```
 
-## Support
+5,expres サーバーを起動します。
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+```bash
+% yarn start
+又は
+% yarn start:dev
+```
 
-## Stay in touch
-
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
-
-## License
-
-  Nest is [MIT licensed](LICENSE).
+6,ターミナルに表示される URL にアクセス又は下記からアクセスしてください。  
+http://localhost:4000/graphql
