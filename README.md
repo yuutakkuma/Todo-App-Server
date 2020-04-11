@@ -55,21 +55,21 @@ Paas
 
 ## ローカルでの起動方法
 
-1,お好きなディレクトリにクローンしてください。
+１、お好きなディレクトリにクローンしてください。
 
 ```bash
 % git clone https://github.com/yuuta-wata/Todo-App-Server.git
 ```
 
-2,ライプラリのインストールを行います。  
+２、ライプラリのインストールを行います。  
 (注)yarn をインストールしてない方は別途インストールをお願いします。
 
 ```bash
-% cd todo-app-client
+% cd todo-app-server
 % yarn
 ```
 
-3,todo-app-server ディレクトリ直下に.env ファイルを作成し,下記をコピーしてください。  
+３、todo-app-server ディレクトリ直下に.env ファイルを作成し,下記をコピペしてください。  
 (注).env ファイルは通常公開しません、今回はポートフォリオ作成なので公開しています。
 
 ```:/.env
@@ -85,7 +85,7 @@ ACCESS_TOKEN_SECRET=feojfanlkefj
 CLIENT_DEVELOPMENT_URL=http://localhost:3000
 ```
 
-4,Docker を起動します。
+４、Docker を起動します。(自動でテストユーザーが作成されます。)  
 PostgreSQL と Admin が同時に立ち上がりますが、Admin を使用したく無い方は予め docker-compose.yml の adminer をコメントアウトしてください。  
 (注)Docker をインストールしてない方は別途インストールしてください。
 
@@ -95,7 +95,7 @@ PostgreSQL と Admin が同時に立ち上がりますが、Admin を使用し�
 % docker-compose up -d
 ```
 
-5,expres サーバーを起動します。
+５、expres サーバーを起動します。
 
 ```bash
 % yarn start
@@ -103,5 +103,6 @@ PostgreSQL と Admin が同時に立ち上がりますが、Admin を使用し�
 % yarn start:dev
 ```
 
-6,ターミナルに表示される URL にアクセス又は下記からアクセスしてください。  
-http://localhost:4000/graphql
+６、ターミナルに表示される URL にアクセス又は下記からアクセスしてください。  
+http://localhost:4000/graphql  
+GraphQL クエリは画面右端にある DOCS、SCHEMA から確認出来ます。
