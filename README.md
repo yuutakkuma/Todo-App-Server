@@ -61,7 +61,7 @@ Paas
 % git clone https://github.com/yuuta-wata/Todo-App-Server.git
 ```
 
-2,ライプラリのインストールを行います。
+2,ライプラリのインストールを行います。  
 (注)yarn をインストールしてない方は別途インストールをお願いします。
 
 ```bash
@@ -69,7 +69,7 @@ Paas
 % yarn
 ```
 
-3,todo-app-server ディレクトリ直下に.env ファイルを作成し,下記をコピーしてください。
+3,todo-app-server ディレクトリ直下に.env ファイルを作成し,下記をコピーしてください。  
 (注).env ファイルは通常公開しません、今回はポートフォリオ作成なので公開しています。
 
 ```:/.env
@@ -86,7 +86,7 @@ CLIENT_DEVELOPMENT_URL=http://localhost:3000
 ```
 
 4,Docker を起動します。
-PostgreSQL と Admin が同時に立ち上がりますが、Admin を使用したく無い方は予め docker-compose.yml の adminer をコメントアウトしてください。
+PostgreSQL と Admin が同時に立ち上がりますが、Admin を使用したく無い方は予め docker-compose.yml の adminer をコメントアウトしてください。  
 (注)Docker をインストールしてない方は別途インストールしてください。
 
 ```bash
@@ -103,5 +103,5 @@ PostgreSQL と Admin が同時に立ち上がりますが、Admin を使用し�
 % yarn start:dev
 ```
 
-6,ターミナルに表示される URL にアクセス又は下記からアクセスしてください。
+6,ターミナルに表示される URL にアクセス又は下記からアクセスしてください。  
 http://localhost:4000/graphql
