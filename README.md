@@ -87,6 +87,7 @@ CLIENT_DEVELOPMENT_URL=http://localhost:3000
 
 ４、Docker を起動します。(自動でテストユーザーが作成されます。)  
 PostgreSQL と Admin が同時に立ち上がりますが、Admin を使用したく無い方は予め docker-compose.yml の adminer をコメントアウトしてください。  
+Admin のポートは 8080 番になります。  
 (注)Docker をインストールしてない方は別途インストールしてください。
 
 ```bash
