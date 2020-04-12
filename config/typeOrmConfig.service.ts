@@ -1,6 +1,8 @@
 import { TypeOrmOptionsFactory, TypeOrmModuleOptions } from '@nestjs/typeorm';
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
+import { User } from '../src/user/entity/user.entity';
+import { Todo } from '../src/todo/entity/todo.entity';
 
 @Injectable()
 export class TypeOrmConfigService implements TypeOrmOptionsFactory {
@@ -18,6 +20,20 @@ export class TypeOrmConfigService implements TypeOrmOptionsFactory {
         database: this.configService.get('TYPEORM_DATABASE'),
         entities: [__dirname + '../../**/**/*.entity{.ts,.js}'],
         synchronize: true,
+      };
+    }
+    // テスト用
+    if (process.env.NODE_ENV === 'test') {
+      return {
+        type: 'postgres',
+        host: 'localhost',
+        port: 5433,
+        username: 'test',
+        password: 'test',
+        database: 'todo-app-test',
+        entities: [User, Todo],
+        synchronize: true,
+        dropSchema: true,
       };
     }
     // Herokuへのデプロイ用
