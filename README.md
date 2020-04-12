@@ -61,7 +61,7 @@
 % git clone https://github.com/yuuta-wata/Todo-App-Server.git
 ```
 
-**２**、ライプラリのインストールを行います。  
+**２**、ライブラリのインストールを行います。  
 (注)yarn をインストールしてない方は別途インストールをお願いします。
 
 ```bash
@@ -86,7 +86,7 @@ CLIENT_DEVELOPMENT_URL=http://localhost:3000
 ```
 
 **４**、Docker を起動します。(自動でテストユーザーが作成されます。)  
-PostgreSQL と Admin が同時に立ち上がりますが、Admin を使用したく無い方は予め docker-compose.yml の adminer をコメントアウトしてください。  
+PostgreSQL と Admin が同時に立ち上がりますが、Admin とテスト用 DB を使用したく無い方は予め docker-compose.yml の adminer、test-db をコメントアウトしてください。  
 Admin のポートは 8080 番になります。  
 (注)Docker をインストールしてない方は別途インストールしてください。
 
@@ -110,5 +110,5 @@ GraphQL クエリは画面右端にある DOCS、SCHEMA から確認出来ます
 
 ### (備考)
 
-docker-compose.yml の test-db がコメントアウトされてますが、テスト時の DB として使用していたが、2020 年 4 月 11 日現在、接続エラーで使用していません。  
-現在修正中です。
+~docker-compose.yml の test-db がコメントアウトされてますが、テスト時の DB として使用していたが、2020 年 4 月 11 日現在、接続エラーで使用していません。現在修正中です。~  
+修正しました。(2020 年 4 月 12 日)
