@@ -48,10 +48,10 @@ export class UserResolver {
     // Cookieからユーザー情報を取得
     const payload = await this.authService.verify(token);
     const data = await this.userService.me(payload);
-    // ユーザーを削除
-    await this.userService.executeDelete(nickname, email, password, data);
     // TodoListを削除
     await this.todoService.todoAllDelete(payload);
+    // ユーザーを削除
+    await this.userService.executeDelete(nickname, email, password, data);
     // Cookieを削除
     await this.authService.clearCookiesToken(ctx.res, token);
     return true;
