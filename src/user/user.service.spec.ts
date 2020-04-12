@@ -1,10 +1,12 @@
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Test, TestingModule } from '@nestjs/testing';
+import { ConfigModule } from '@nestjs/config';
 
 import { UserService } from './user.service';
 import { RegisterInput } from './inputs/registerInput';
 import { LoginInput } from './inputs/loginInput';
-import { TestUser } from './test-utils/testUser';
+import { TypeOrmConfigService } from '../../config/typeOrmConfig.service';
+import { User } from './entity/user.entity';
 
 let userService: UserService;
 let registerInput: RegisterInput;
@@ -32,18 +34,11 @@ beforeAll(async () => {
   };
   moduleRef = await Test.createTestingModule({
     imports: [
-      TypeOrmModule.forRoot({
-        type: 'postgres',
-        host: 'localhost',
-        port: 5433,
-        username: 'postgres',
-        password: 'postgres',
-        database: 'todo-app-test',
-        synchronize: true,
-        dropSchema: true,
-        entities: [__dirname, 'src/user/tist-utils/testUser.ts'],
+      TypeOrmModule.forRootAsync({
+        imports: [ConfigModule],
+        useClass: TypeOrmConfigService,
       }),
-      TypeOrmModule.forFeature([TestUser]),
+      TypeOrmModule.forFeature([User]),
     ],
     providers: [UserService],
   }).compile();

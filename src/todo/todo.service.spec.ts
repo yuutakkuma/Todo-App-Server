@@ -1,10 +1,12 @@
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Test, TestingModule } from '@nestjs/testing';
+import { ConfigModule } from '@nestjs/config';
 
 import { Todo } from './entity/todo.entity';
 import { TodoService } from './todo.service';
 import { CreateTodoInput } from './inputs/createTodoInput';
-import { JwtPayload } from 'src/models/jwtPayload';
+import { JwtPayload } from '../models/jwtPayload';
+import { TypeOrmConfigService } from '../../config/typeOrmConfig.service';
 
 let todoService: TodoService;
 let createTodoInput: CreateTodoInput;
@@ -24,16 +26,9 @@ beforeAll(async () => {
   };
   moduleRef = await Test.createTestingModule({
     imports: [
-      TypeOrmModule.forRoot({
-        type: 'postgres',
-        host: 'localhost',
-        port: 5433,
-        username: 'postgres',
-        password: 'postgres',
-        database: 'todo-app-test',
-        synchronize: true,
-        dropSchema: true,
-        entities: [__dirname, '**/*.entity.ts'],
+      TypeOrmModule.forRootAsync({
+        imports: [ConfigModule],
+        useClass: TypeOrmConfigService,
       }),
       TypeOrmModule.forFeature([Todo]),
     ],
