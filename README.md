@@ -65,7 +65,7 @@
 (注)yarn をインストールしてない方は別途インストールをお願いします。
 
 ```bash
-% cd todo-app-server
+% cd Todo-App-Server
 % yarn
 ```
 
