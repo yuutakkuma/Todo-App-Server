@@ -40,7 +40,7 @@ export class TypeOrmConfigService implements TypeOrmOptionsFactory {
     return {
       type: 'postgres',
       url: this.configService.get('DATABASE_URL'),
-      entities: [__dirname + '../../**/**/*.entity{.ts,.js}'],
+      entities: [__dirname + '../../**/**/*.entity.js'],
       synchronize: true,
     };
   }

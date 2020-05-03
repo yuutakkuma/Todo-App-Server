@@ -1,3 +1,5 @@
 dist
 node_modules
 README.md
+pgdata
+deploy_server.sh
