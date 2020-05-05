@@ -5,6 +5,7 @@ import { ValidationPipe } from '@nestjs/common';
 import { AppModule } from './app.module';
 import cookieParser from 'cookie-parser';
 
+declare const module: any;
 let clientUrl: string;
 
 async function bootstrap() {
@@ -23,6 +24,11 @@ async function bootstrap() {
     origin: clientUrl,
     credentials: true,
   });
+
+  if (module.hot) {
+    module.hot.accept();
+    module.hot.dispose(() => app.close());
+  }
 
   app.useGlobalPipes(new ValidationPipe());
   const port = Number(process.env.PORT) || 4000;

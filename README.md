@@ -69,7 +69,7 @@
 % yarn
 ```
 
-**３**、todo-app-server ディレクトリ直下に.env ファイルを作成し,下記をコピペしてください。  
+**３**、Todo-App-Server ディレクトリ直下に.env ファイルを作成し,下記をコピペしてください。  
 (注).env ファイルは通常公開しません、今回はポートフォリオ作成なので公開しています。
 
 ```:/.env
@@ -86,25 +86,15 @@ CLIENT_DEVELOPMENT_URL=http://localhost:3000
 ```
 
 **４**、Docker を起動します。(自動でテストユーザーが作成されます。)  
-PostgreSQL と Admin が同時に立ち上がりますが、Admin とテスト用 DB を使用したく無い方は予め docker-compose.yml の adminer、test-db をコメントアウトしてください。  
+PostgreSQL と Admin が同時に立ち上がりますが、Admin とテスト用 DB を使用したく無い方は予め docker-compose.development.yml の adminer、test-db をコメントアウトしてください。  
 Admin のポートは 8080 番になります。  
 (注)Docker をインストールしてない方は別途インストールしてください。
 
 ```bash
-% docker-compose up
-又は
-% docker-compose up -d
+% docker-compose -f docker/dev/docker-compose.development.yml up --build
 ```
 
-**５**、expres サーバーを起動します。
-
-```bash
-% yarn start
-又は
-% yarn start:dev
-```
-
-**６**、ターミナルに表示される URL にアクセス又は下記からアクセスしてください。  
+**5**、ターミナルに表示される URL にアクセス又は下記からアクセスしてください。  
 http://localhost:4000/graphql  
 GraphQL クエリは画面右端にある DOCS、SCHEMA から確認出来ます。
 

@@ -2,7 +2,6 @@ version: '3.7'
 services:
   db:
     image: postgres:12.2
-    context: ../../
     container_name: todo-server-db
     environment:
       POSTGRES_PASSWORD: ${TYPEORM_PASSWORD}
@@ -14,10 +13,8 @@ services:
       - ./docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
     ports:
       - 5432:5432
-
   test-db:
     image: postgres:12.2-alpine
-    context: ../../
     container_name: todo-server-testdb
     environment:
       POSTGRES_PASSWORD: test
@@ -26,17 +23,20 @@ services:
     tty: true
     ports:
       - 5433:5432
-
   adminer:
     image: adminer
     restart: always
     ports:
       - 8080:8080
-
-    todo_server:
-      build:
-        context: ../../
-        image: docker/dev/dockerfile.development
-      container_name: todo-server
-      volumes:
-        - ../../:usr/app
+  todo_server:
+    build:
+      context: ../../
+      dockerfile: docker/dev/dockerfile.development
+    container_name: todo-server
+    volumes:
+      - ../../:/usr/app
+    depends_on:
+      - db
+      - test-db
+    ports:
+      - 4000:4000
