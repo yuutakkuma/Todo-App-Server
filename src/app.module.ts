@@ -14,7 +14,6 @@ import { TypeOrmConfigService } from '../config/typeOrmConfig.service';
     ConfigModule.forRoot({
       isGlobal: true,
       envFilePath: '.env',
-      ignoreEnvFile: true,
     }),
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],

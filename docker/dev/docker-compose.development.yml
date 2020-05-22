@@ -23,11 +23,11 @@ services:
     tty: true
     ports:
       - 5433:5432
-  adminer:
-    image: adminer
-    restart: always
-    ports:
-      - 8080:8080
+  # adminer:
+  #   image: adminer
+  #   restart: always
+  #   ports:
+  #     - 8080:8080
   todo_server:
     build:
       context: ../../

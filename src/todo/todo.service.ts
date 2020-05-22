@@ -24,8 +24,7 @@ export class TodoService {
 
   async create(input: CreateTodoInput, payload: JwtPayload): Promise<boolean> {
     try {
-      await this.todoRepository
-        .create({
+      await this.todoRepository.create({
           title: input.title,
           userId: payload.userId,
         })
