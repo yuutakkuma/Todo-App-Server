@@ -38,7 +38,9 @@ export class TodoService {
   async delete(todoId: number) {
     const todo = await this.todoRepository.findOne({ where: { id: todoId } });
     if (typeof todo === 'undefined') {
-      throw new UnauthorizedException('Todoがありませんでした。');
+      throw new 
+      UnauthorizedException
+      ("Todoがありませんでした。");
     }
     try {
       await this.todoRepository.delete(todo);
