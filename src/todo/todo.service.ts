@@ -24,7 +24,8 @@ export class TodoService {
 
   async create(input: CreateTodoInput, payload: JwtPayload): Promise<boolean> {
     try {
-      await this.todoRepository.create({
+      await this.todoRepository
+        .create({
           title: input.title,
           userId: payload.userId,
         })
@@ -38,9 +39,7 @@ export class TodoService {
   async delete(todoId: number) {
     const todo = await this.todoRepository.findOne({ where: { id: todoId } });
     if (typeof todo === 'undefined') {
-      throw new 
-      UnauthorizedException
-      ("Todoがありませんでした");
+      throw new UnauthorizedException('Todoがありませんでした。');
     }
     try {
       await this.todoRepository.delete(todo);
