@@ -40,7 +40,7 @@ export class TodoService {
     if (typeof todo === 'undefined') {
       throw new 
       UnauthorizedException
-      ("Todoがありませんでした。");
+      ("Todoがありませんでした");
     }
     try {
       await this.todoRepository.delete(todo);
