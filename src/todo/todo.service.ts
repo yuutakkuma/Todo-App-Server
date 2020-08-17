@@ -9,7 +9,8 @@ import { JwtPayload } from '../models/jwtPayload';
 @Injectable()
 export class TodoService {
   constructor(
-    @InjectRepository(Todo) private readonly todoRepository: Repository<Todo>,
+    @InjectRepository(Todo)
+    private readonly todoRepository: Repository<Todo>,
   ) {}
 
   async todoList(payload: JwtPayload): Promise<Todo[]> {

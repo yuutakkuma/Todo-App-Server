@@ -3,6 +3,7 @@ type Query {
   allTodoList: [Todo]
   getUsers: [Users]
   me: Users
+  helloNestJS: String!
 }
 
 type Mutation {

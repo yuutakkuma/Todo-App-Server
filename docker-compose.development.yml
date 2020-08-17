@@ -23,20 +23,21 @@ services:
     tty: true
     ports:
       - 5433:5432
-  adminer:
-    image: adminer
-    restart: always
-    ports:
-      - 8080:8080
-  todo_server:
-    build:
-      context: ../../
-      dockerfile: docker/dev/dockerfile.development
-    container_name: todo-server
-    volumes:
-      - ../../:/usr/app
-    depends_on:
-      - db
-      - test-db
-    ports:
-      - 4000:4000
+  # adminer:
+  #   image: adminer
+  #   restart: always
+  #   ports:
+  #     - 8080:8080
+  # todo_server:
+  #   build:
+  #     context: ./
+  #     dockerfile: dockerfile.development
+  #   container_name: todo-server
+  #   volumes:
+  #     - ./:/usr/app
+  #   depends_on:
+  #     - db
+  #     - test-db
+  #   ports:
+  #     - 4000:4000
+  #   tty: true

@@ -31,6 +31,11 @@ export class UserResolver {
     return await this.userService.me(payload);
   }
 
+  @Query(() => String)
+  async helloNestJS() {
+    return 'Hello, NestJS!!!';
+  }
+
   @Mutation(() => Boolean)
   async register(
     @Args('registerInput') { nickname, email, password }: RegisterInput,
