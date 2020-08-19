@@ -13,16 +13,16 @@ services:
       - ./docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
     ports:
       - 5432:5432
-  test-db:
-    image: postgres:12.2-alpine
-    container_name: todo-server-testdb
-    environment:
-      POSTGRES_PASSWORD: test
-      POSTGRES_USER: test
-      POSTGRES_DB: todo-app-test
-    tty: true
-    ports:
-      - 5433:5432
+  # test-db:
+  #   image: postgres:12.2-alpine
+  #   container_name: todo-server-testdb
+  #   environment:
+  #     POSTGRES_PASSWORD: test
+  #     POSTGRES_USER: test
+  #     POSTGRES_DB: todo-app-test
+  #   tty: true
+  #   ports:
+  #     - 5433:5432
   # adminer:
   #   image: adminer
   #   restart: always

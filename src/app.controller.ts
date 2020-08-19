@@ -16,13 +16,13 @@ export class AppController {
     //　トークンを取得
     const token = req.cookies.jid;
     if (typeof token === 'undefined') {
-      return res.send({ accessToken: 'no token' });
+      return res.status(404).send({ accessToken: 'no token' });
     }
 
     // トークンが有効か検証
     const payload = await this.authService.verify(token);
     if (typeof payload === 'undefined') {
-      return res.send({ accessToken: 'no payload' });
+      return res.status(404).send({ accessToken: 'no token' });
     }
 
     // ユーザーを特定し、新しいアクセストークンを生成
