@@ -91,7 +91,7 @@ Admin のポートは 8080 番になります。
 (注)Docker をインストールしてない方は別途インストールしてください。
 
 ```bash
-% docker-compose -f docker/dev/docker-compose.development.yml up --build
+% docker-compose -f docker-compose.development.yml up
 ```
 
 **5**、ターミナルに表示される URL にアクセス又は下記からアクセスしてください。  
