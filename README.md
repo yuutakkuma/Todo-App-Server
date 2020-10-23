@@ -1,4 +1,4 @@
-# 当アプリについて
+# アプリについて
 
 こちらはポートフォリオ用に作成したタスク管理アプリ<a href="https://github.com/yuuta-wata/Todo-App-Client" alt="Todo-App-Client">Todo-App-Client</a>の API サーバーになります。
 
