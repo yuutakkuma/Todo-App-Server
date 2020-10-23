@@ -26,22 +26,21 @@ export class UserService {
   }
 
   // ユーザー新規登録
-  async saveRegister(nickName: string, email: string, password: string) {
+  async saveRegister({nickname, email, password}: RegisterInput) {
     //　パスワードをハッシュ化
     const hashedPassword = await hash(password, 12);
     // DBへ保存
     try {
       await this.userRepository
         .create({
-          nickname: nickName,
-          email: email,
+          nickname,
+          email,
           password: hashedPassword,
         })
         .save();
       return true;
     } catch {
-      console.log('ユーザーを登録出来ませんでした。');
-      return false;
+      throw new UnauthorizedException('ユーザーを登録出来ませんでした。');
     }
   }
 
@@ -52,12 +51,12 @@ export class UserService {
     });
 
     if (typeof user === 'undefined') {
-      throw new UnauthorizedException('ユーザーが見つかりませんでした。');
+      throw new UnauthorizedException('メールアドレスかパスワードが間違ってます。');
     }
 
     const valid = await compare(loginData.password, user.password);
     if (!valid) {
-      throw new UnauthorizedException('パスワードが間違ってます。');
+      throw new UnauthorizedException('メールアドレスかパスワードが間違ってます。');
     }
 
     return user;
@@ -83,7 +82,7 @@ export class UserService {
     // パスワード検証
     const valid = await compare(password, userData.password);
     if (!valid) {
-      throw new UnauthorizedException('パスワードが間違ってます。');
+      throw new UnauthorizedException('メールアドレスかパスワードが間違ってます。');
     }
     // 全て一致したらユーザーを削除
     if (

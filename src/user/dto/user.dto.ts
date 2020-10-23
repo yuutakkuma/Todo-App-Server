@@ -6,13 +6,11 @@ export class UserDto {
   readonly id: number;
 
   @Field()
-  readonly username: string;
+  readonly nickname: string;
 
   @Field()
   readonly email: string;
 
-  readonly password: string;
-
   @Field()
-  readonly loginstatus: boolean;
+  readonly accessToken: string;
 }

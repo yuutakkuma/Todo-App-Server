@@ -40,7 +40,7 @@ export class UserResolver {
   async register(
     @Args('registerInput') { nickname, email, password }: RegisterInput,
   ) {
-    return await this.userService.saveRegister(nickname, email, password);
+    return await this.userService.saveRegister({nickname, email, password});
   }
 
   @Mutation(() => Boolean)
@@ -69,10 +69,17 @@ export class UserResolver {
     return await this.userService.loginStutasFalse(payload);
   }
 
-  @Mutation(() => Boolean)
-  @UseGuards(LoginGuard)
-  async login(): Promise<boolean> {
-    return true;
+  @Mutation(() => UserDto)
+  // @UseGuards(LoginGuard)
+  async login(@Args('loginInput')loginInput: LoginInput): Promise<UserDto> {
+    const {id, nickname, email} = await this.userService.validateUser(loginInput)
+    const accessToken = await this.authService.createAccessToken(id, email)
+    return ({
+      id,
+      nickname,
+      email,
+      accessToken
+    })
   }
 
   // テストユーザーログイン専用クエリ
@@ -83,7 +90,7 @@ export class UserResolver {
   ) {
     const testUser = await this.userService.validateTestUser(email, password);
     // アクセストークン生成
-    const accessToken = await this.authService.createAccessToken(testUser);
+    const accessToken = await this.authService.createAccessToken(testUser.id, testUser.email);
     // ログインステータス更新
     await this.userService.loginStutasTrue(testUser);
     // アクセストークンをCookieに保存

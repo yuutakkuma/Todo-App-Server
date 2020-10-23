@@ -1,6 +1,6 @@
 import { Entity, PrimaryGeneratedColumn, Column, BaseEntity } from 'typeorm';
 
-let isSynchronize: boolean = false;
+let isSynchronize = false;
 // テスト時はDBと同期させる
 if (process.env.NODE_ENV === 'test') isSynchronize = true;
 

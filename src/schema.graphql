@@ -10,7 +10,7 @@ type Mutation {
   createTodo(input: CreateTodoInput!): Boolean
   deleteTodo(id: ID!): Boolean
   register(registerInput: RegisterInput!): Boolean
-  login(loginInput: LoginInput!): Boolean
+  login(loginInput: LoginInput!): Users
   testUserLogin(loginInput: LoginInput!): Boolean
   logOut: Boolean
   deleteAccount(deleteAccountInput: DeleteAccountInput!): Boolean
@@ -30,7 +30,7 @@ type Users {
   id: ID!
   nickname: String!
   email: String!
-  loginstatus: Boolean!
+  accessToken: String!
 }
 
 input RegisterInput {

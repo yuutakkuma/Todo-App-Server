@@ -19,7 +19,7 @@ export class LoginGuard implements CanActivate {
     const loginData = ctx.getArgs().loginInput;
     const user = await this.userService.validateUser(loginData);
     // アクセストークンを生成し、ログインステータスをtrueにしてから保存
-    const accessToken = await this.authService.createAccessToken(user);
+    const accessToken = await this.authService.createAccessToken(user.id, user.email);
     await this.userService.loginStutasTrue(user);
     return await this.authService.saveAccessToken(res, accessToken);
   }

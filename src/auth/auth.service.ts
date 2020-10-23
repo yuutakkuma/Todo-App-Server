@@ -2,16 +2,14 @@ import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { Response } from 'express';
 
-import { User } from '../user/entity/user.entity';
-
 @Injectable()
 export class AuthService {
   constructor(private readonly jwtService: JwtService) {}
   // アクセストークンを生成
-  async createAccessToken(user: User) {
+  async createAccessToken(id: number, email: string) {
     const accessToken = this.jwtService.sign({
-      userId: user.id,
-      userEmail: user.email,
+      userId: id,
+      userEmail: email,
     });
     if (typeof accessToken === 'undefined') {
       throw new UnauthorizedException(
