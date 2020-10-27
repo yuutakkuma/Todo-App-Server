@@ -13,13 +13,14 @@ export class AppController {
   @Post()
   async postToken(@Req() req: Request, @Res() res: Response) {
     //　トークンを取得
-    const token = req.headers.cookie;
+    const token = req.headers.authorization;
+    
     if (typeof token === 'undefined') {
       return res.status(404).send({ accessToken: 'no token' });
     }
 
     // トークンが有効か検証
-    const payload = await this.authService.verify(token);
+    const payload = await this.authService.verify(token.split(' ')[1]);
     if (typeof payload === 'undefined') {
       return res.status(404).send({ accessToken: 'no token' });
     }

@@ -53,10 +53,10 @@ export class UserResolver {
     // Cookieからユーザー情報を取得
     const payload = await this.authService.verify(token);
     const data = await this.userService.me(payload);
-    // TodoListを削除
-    await this.todoService.todoAllDelete(payload);
     // ユーザーを削除
     await this.userService.executeDelete(nickname, email, password, data);
+    // TodoListを削除
+    await this.todoService.todoAllDelete(payload);
     // Cookieを削除
     await this.authService.clearCookiesToken(ctx.res, token);
     return true;
@@ -83,17 +83,25 @@ export class UserResolver {
   }
 
   // テストユーザーログイン専用クエリ
-  @Mutation(() => Boolean)
+  @Mutation(() => UserDto)
   async testUserLogin(
-    @Args('loginInput') { email, password }: LoginInput,
-    @Context() ctx: MyContext,
-  ) {
-    const testUser = await this.userService.validateTestUser(email, password);
+    @Args('loginInput') loginInput: LoginInput,
+  ): Promise<UserDto> {
+    const {id, nickname, email} = await this.userService.validateTestUser(loginInput.email, loginInput.password);
     // アクセストークン生成
-    const accessToken = await this.authService.createAccessToken(testUser.id, testUser.email);
+    const accessToken = await this.authService.createAccessToken(id, email);
     // ログインステータス更新
-    await this.userService.loginStutasTrue(testUser);
+    // await this.userService.loginStutasTrue(testUser);
     // アクセストークンをCookieに保存
-    return await this.authService.saveAccessToken(ctx.res, accessToken);
+    // return await this.authService.saveAccessToken(ctx.res, accessToken);
+    
+    return ({
+      id,
+      nickname,
+      email,
+      accessToken
+    })
+
+    
   }
 }

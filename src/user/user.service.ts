@@ -82,7 +82,7 @@ export class UserService {
     // パスワード検証
     const valid = await compare(password, userData.password);
     if (!valid) {
-      throw new UnauthorizedException('メールアドレスかパスワードが間違ってます。');
+      throw new UnauthorizedException('入力情報が間違ってます。');
     }
     // 全て一致したらユーザーを削除
     if (
@@ -93,7 +93,7 @@ export class UserService {
       await this.userRepository.delete(userData);
     } else {
       throw new UnauthorizedException(
-        'メールアドレス、又はニックネームが違います。',
+        '入力情報が間違ってます。',
       );
     }
   }
