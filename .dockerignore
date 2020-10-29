@@ -1,5 +1,25 @@
-dist
-node_modules
-README.md
+# Docker files
+/docker
+Dockerfile
+dockerfile.development
+docker-compose.yml
+
+/dist
+.minio
+.dockerignore
+.gitignore
+.DS_Store
+.editorconfig
+.flowconfig
+.git
+.stylelintrc.json
+# .vscode
+*.md
+/docs
+v8-compile-cache-0
+.devcontainer
+.yarn-error.log
+
+/node_modules
 pgdata
 deploy_server.sh

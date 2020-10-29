@@ -28,17 +28,16 @@ services:
   #   restart: always
   #   ports:
   #     - 8080:8080
-  todo_server:
-    build:
-      context: .
-      dockerfile: dockerfile.development
-    container_name: todo-api-erver
-    volumes:
-      - ./:/usr/app/
-    depends_on:
-      - db
-      # - test-db
-    ports:
-      - 4000:4000
-    tty: true
+  # todo_server:
+  #   build:
+  #     context: .
+  #     dockerfile: dockerfile.development
+  #   container_name: todo-api-erver
+  #   volumes:
+  #     - .:/usr/app/
+  #   depends_on:
+  #     - db
+  #     # - test-db
+  #   ports:
+  #     - 4000:4000
 
