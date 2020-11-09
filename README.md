@@ -59,23 +59,16 @@
 
 ```bash
 % git clone https://github.com/yuuta-wata/Todo-App-Server.git
-```
-
-**２**、ライブラリのインストールを行います。  
-(注)yarn をインストールしてない方は別途インストールをお願いします。
-
-```bash
 % cd Todo-App-Server
-% yarn
 ```
 
-**３**、Todo-App-Server ディレクトリ直下に.env ファイルを作成し,下記をコピペしてください。  
+**2**、Todo-App-Server ディレクトリ直下に.env ファイルを作成し,下記をコピペしてください。  
 (注).env ファイルは通常公開しません、今回はポートフォリオ作成なので公開しています。
 
 ```:/.env
 
 TYPEORM_CONNECTION=postgres
-TYPEORM_HOST=localhost
+TYPEORM_HOST=db
 TYPEORM_USERNAME=postgres
 TYPEORM_PASSWORD=postgres
 TYPEORM_DATABASE=todo-app
@@ -85,7 +78,7 @@ ACCESS_TOKEN_SECRET=feojfanlkefj
 CLIENT_DEVELOPMENT_URL=http://localhost:3000
 ```
 
-**４**、Docker を起動します。(自動でテストユーザーが作成されます。)  
+**3**、Docker を起動します。(自動でテストユーザーが作成されます。)  
 PostgreSQL と Admin が同時に立ち上がりますが、Admin とテスト用 DB を使用したく無い方は予め docker-compose.development.yml の adminer、test-db をコメントアウトしてください。  
 Admin のポートは 8080 番になります。  
 (注)Docker をインストールしてない方は別途インストールしてください。
@@ -94,11 +87,6 @@ Admin のポートは 8080 番になります。
 % docker-compose -f docker-compose.development.yml up
 ```
 
-**5**、ターミナルに表示される URL にアクセス又は下記からアクセスしてください。  
+**4**、ターミナルに表示される URL にアクセス又は下記からアクセスしてください。  
 http://localhost:4000/graphql  
 GraphQL クエリは画面右端にある DOCS、SCHEMA から確認出来ます。
-
-### (備考)
-
-~docker-compose.yml の test-db がコメントアウトされてますが、テスト時の DB として使用していたが、2020 年 4 月 11 日現在、接続エラーで使用していません。現在修正中です。~  
-修正しました。(2020 年 4 月 12 日)

@@ -1,16 +1,15 @@
 import { Resolver, Query, Mutation, Args, Context } from '@nestjs/graphql';
-import { UseGuards } from '@nestjs/common';
 
 import { UserService } from './user.service';
 import { UserDto } from './dto/user.dto';
 import { RegisterInput } from './inputs/registerInput';
-import { LoginGuard } from '../auth/loginGuard';
 import { MyContext } from './myContext';
 import { GetToken } from '../customDecorator/getToken';
 import { AuthService } from '../auth/auth.service';
 import { DeleteAccountInput } from './inputs/deleteAccountInput';
 import { TodoService } from '../todo/todo.service';
 import { LoginInput } from './inputs/loginInput';
+import { TokenDto } from './dto/token.dto';
 
 @Resolver('User')
 export class UserResolver {
@@ -36,11 +35,22 @@ export class UserResolver {
     return 'Hello, NestJS!!!';
   }
 
+  @Query(() => TokenDto)
+  async getRefreshToken(@GetToken() token: string): Promise<TokenDto> {
+    const payload = await this.authService.verify(token);
+    if (typeof payload === 'undefined') return { refreshToken: '' };
+
+    const { id, email } = await this.userService.me(payload);
+    return {
+      refreshToken: await this.authService.createAccessToken(id, email),
+    };
+  }
+
   @Mutation(() => Boolean)
   async register(
     @Args('registerInput') { nickname, email, password }: RegisterInput,
   ) {
-    return await this.userService.saveRegister({nickname, email, password});
+    return await this.userService.saveRegister({ nickname, email, password });
   }
 
   @Mutation(() => Boolean)
@@ -70,16 +80,17 @@ export class UserResolver {
   }
 
   @Mutation(() => UserDto)
-  // @UseGuards(LoginGuard)
-  async login(@Args('loginInput')loginInput: LoginInput): Promise<UserDto> {
-    const {id, nickname, email} = await this.userService.validateUser(loginInput)
-    const accessToken = await this.authService.createAccessToken(id, email)
-    return ({
+  async login(@Args('loginInput') loginInput: LoginInput): Promise<UserDto> {
+    const { id, nickname, email } = await this.userService.validateUser(
+      loginInput,
+    );
+    const accessToken = await this.authService.createAccessToken(id, email);
+    return {
       id,
       nickname,
       email,
-      accessToken
-    })
+      accessToken,
+    };
   }
 
   // テストユーザーログイン専用クエリ
@@ -87,21 +98,17 @@ export class UserResolver {
   async testUserLogin(
     @Args('loginInput') loginInput: LoginInput,
   ): Promise<UserDto> {
-    const {id, nickname, email} = await this.userService.validateTestUser(loginInput.email, loginInput.password);
+    const { id, nickname, email } = await this.userService.validateTestUser(
+      loginInput.email,
+      loginInput.password,
+    );
     // アクセストークン生成
     const accessToken = await this.authService.createAccessToken(id, email);
-    // ログインステータス更新
-    // await this.userService.loginStutasTrue(testUser);
-    // アクセストークンをCookieに保存
-    // return await this.authService.saveAccessToken(ctx.res, accessToken);
-    
-    return ({
+    return {
       id,
       nickname,
       email,
-      accessToken
-    })
-
-    
+      accessToken,
+    };
   }
 }

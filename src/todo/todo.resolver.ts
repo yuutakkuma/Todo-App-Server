@@ -16,7 +16,6 @@ export class TodoResolver {
   @Query(() => TodoDto)
   async getTodoList(@GetToken() token: string) {
     const payload = await this.authService.verify(token);
-    console.log('getTodoList:', payload)
     return await this.todoService.todoList(payload);
   }
   // 開発用

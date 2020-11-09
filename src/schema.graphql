@@ -4,6 +4,7 @@ type Query {
   getUsers: [Users]
   me: Users
   helloNestJS: String!
+  getRefreshToken: RefreshToken
 }
 
 type Mutation {
@@ -14,6 +15,10 @@ type Mutation {
   testUserLogin(loginInput: LoginInput!): Users
   logOut: Boolean
   deleteAccount(deleteAccountInput: DeleteAccountInput!): Boolean
+}
+
+type RefreshToken {
+  refreshToken: String
 }
 
 type Todo {

@@ -18,7 +18,7 @@ export class AuthService {
     }
     return accessToken;
   }
-  
+
   // アクセストークンをCookieに保存する
   async saveAccessToken(res: Response, token: string) {
     try {
@@ -33,7 +33,7 @@ export class AuthService {
   // アクセストークンを削除する
   async clearCookiesToken(res: Response, token: string) {
     try {
-      res.setHeader('cookie', '')
+      res.setHeader('cookie', '');
       // res.clearCookie('jid', token);
     } catch {
       throw new UnauthorizedException('Cookieを削除出来ませんでした。');
