@@ -21,9 +21,9 @@
 - 全ユーザーのタスク情報取得
 - タスク削除
 
-**認証・検証**
+**認証・検証機能**
 
-- Cookie
+- JWT
 
 ## 使用技術
 
@@ -41,7 +41,7 @@
 - PostgrSQL
 - Admin
 
-**Cookie**
+**認証 ・検証**
 
 - JWT
 
@@ -79,13 +79,16 @@ CLIENT_DEVELOPMENT_URL=http://localhost:3000
 ```
 
 **3**、Docker を起動します。(自動でテストユーザーが作成されます。)  
-PostgreSQL と Admin が同時に立ち上がりますが、Admin とテスト用 DB を使用したく無い方は予め docker-compose.development.yml の adminer、test-db をコメントアウトしてください。  
+PostgreSQL と Admin が同時に立ち上がりますが、Admin とテスト用 DB を使用したく無い方は予め docker-compose.yml の adminer、test-db をコメントアウトしてください。  
 Admin のポートは 8080 番になります。  
 (注)Docker をインストールしてない方は別途インストールしてください。
 
 ```bash
-% docker-compose -f docker-compose.development.yml up
+% docker-compose up
 ```
+
+PC のスペックによっては Docker が重くて開発サーバーが安定しない場合があります。  
+その場合は docker-compose.yml の**todo_server**をコメントアウトし、`yarn start:dev`でサーバーを立ち上げてください。
 
 **4**、ターミナルに表示される URL にアクセス又は下記からアクセスしてください。  
 http://localhost:4000/graphql  
